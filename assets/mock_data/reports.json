@@ -1,0 +1,97 @@
+[
+  {
+    "id": 1,
+    "reportName": "פריחת כלניות בדרום",
+    "plantIds": [101, 102],
+    "userId": 1001,
+    "reportDate": "2024-02-15T10:30:00Z",
+    "viewCount": 1500,
+    "likeCount": 230,
+    "status": "מאושר",
+    "location": {
+      "lat": 31.2718,
+      "lng": 34.7876
+    },
+    "itemCount": 500,
+    "freePics": [
+      "https://images.unsplash.com/photo-1490750967868-88aa4486c946",
+      "https://images.unsplash.com/photo-1584638765878-ce5adeb6fa9f"
+    ]
+  },
+  {
+    "id": 2,
+    "reportName": "רקפות בכרמל",
+    "plantIds": [103],
+    "userId": 1002,
+    "reportDate": "2024-02-18T14:45:00Z",
+    "viewCount": 2200,
+    "likeCount": 410,
+    "status": "בבדיקה",
+    "location": {
+      "lat": 32.794,
+      "lng": 35.05
+    },
+    "itemCount": 300,
+    "freePics": [
+      "https://images.unsplash.com/photo-1612130532600-b2705029d639",
+      "https://images.unsplash.com/photo-1615715852517-602f9fe83113"
+    ]
+  },
+  {
+    "id": 3,
+    "reportName": "פריחת שקדיות בצפון",
+    "plantIds": [104, 105, 106],
+    "userId": 1003,
+    "reportDate": "2024-02-20T09:15:00Z",
+    "viewCount": 3000,
+    "likeCount": 550,
+    "status": "מאושר",
+    "location": {
+      "lat": 33.0089,
+      "lng": 35.2592
+    },
+    "itemCount": 1000,
+    "freePics": [
+      "https://images.unsplash.com/photo-1594374542748-ba4839c24cd1",
+      "https://images.unsplash.com/photo-1620496012620-b16e666bd25c"
+    ]
+  },
+  {
+    "id": 4,
+    "reportName": "חרציות בשרון",
+    "plantIds": [107],
+    "userId": 1004,
+    "reportDate": "2024-02-22T11:00:00Z",
+    "viewCount": 1800,
+    "likeCount": 320,
+    "status": "נדחה",
+    "location": {
+      "lat": 32.324,
+      "lng": 34.8516
+    },
+    "itemCount": 750,
+    "freePics": [
+      "https://images.unsplash.com/photo-1598512199776-e0851d33ba47",
+      "https://images.unsplash.com/photo-1606041008023-472dfb5e530f"
+    ]
+  },
+  {
+    "id": 5,
+    "reportName": "פרגים בעמק יזרעאל",
+    "plantIds": [108, 109],
+    "userId": 1005,
+    "reportDate": "2024-02-25T16:30:00Z",
+    "viewCount": 2500,
+    "likeCount": 480,
+    "status": "מאושר",
+    "location": {
+      "lat": 32.6078,
+      "lng": 35.2342
+    },
+    "itemCount": 1200,
+    "freePics": [
+      "https://images.unsplash.com/photo-1534447872209-48e5fb42048a",
+      "https://images.unsplash.com/photo-1626409170908-164ec93db54e"
+    ]
+  }
+]

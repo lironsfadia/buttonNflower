@@ -1,22 +1,18 @@
-import { Stack } from 'expo-router';
-import { StyleSheet, View } from 'react-native';
+import { FlatList } from 'react-native';
+import reports from '../../assets/mock_data/reports.json';
+import ReportListItem from '~/components/Reports/ReportListItem';
 
-import { ScreenContent } from '~/components/ScreenContent';
+export default function Reports() {
+  const listItem = ({ item }) => {
+    return <ReportListItem item={item} />;
+  };
 
-export default function Home() {
   return (
-    <>
-      <Stack.Screen options={{ title: 'Tab One' }} />
-      <View style={styles.container}>
-        <ScreenContent path="app/(tabs)/index.tsx" title="Tab One" />
-      </View>
-    </>
+    <FlatList
+      className="bg-white"
+      data={reports}
+      renderItem={listItem}
+      keyExtractor={(item) => item.id}
+    />
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 24,
-  },
-});
