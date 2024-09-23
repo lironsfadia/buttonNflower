@@ -1,4 +1,4 @@
-import { FlatList } from 'react-native';
+import { FlatList, I18nManager } from 'react-native';
 import reports from '../../assets/mock_data/reports.json';
 import ReportListItem from '~/components/Reports/ReportListItem';
 import { Stack } from 'expo-router';
@@ -41,6 +41,9 @@ import { Stack } from 'expo-router';
 
 export default function Reports() {
   //   const { listItem, events } = useEvents();
+  // Force RTL for the entire app
+  I18nManager.forceRTL(true);
+  I18nManager.allowRTL(true);
 
   const listItem = ({ item }: ListItem) => {
     return <ReportListItem item={item} />;
