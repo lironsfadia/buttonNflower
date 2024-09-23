@@ -28,7 +28,7 @@ function ReportListItem({ item }: ListItem) {
 
   const time = formatDate(date);
   return (
-    <View className="flex-col p-3">
+    <View className="flex-1 flex-col p-3">
       <View className="flex-3">
         <ImageSlider images={freePics} />
       </View>
@@ -53,7 +53,7 @@ function ReportListItem({ item }: ListItem) {
               </View>
 
               <View className="mt-1 flex-row gap-1 align-middle">
-                <Feather name="thumbs-up" size={20} color="grey" />
+                <Feather name="heart" size={20} color="grey" />
                 <Text className="text-md text-grey-700 text-right">{likeCount}</Text>
               </View>
 

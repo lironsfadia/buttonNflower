@@ -45,12 +45,12 @@ function EventScreen() {
         <Stack.Screen
           options={{ title: 'Report', headerBackTitleVisible: false, headerTintColor: 'black' }}
         />
-        <View className="flex-3 items-center justify-center">
+        <View className="flex-3 px-2">
           <ImageSlider images={freePics} />
         </View>
 
-        <View className="flex-row gap-0 px-5">
-          <View className="flex-1 items-start px-4">
+        <View className="flex-row gap-0 px-4">
+          <View className="flex-1 items-start">
             {/* <Image className="aspect-video w-full" source={{ uri: image_uri }} /> */}
             <Text className="mt-1 text-xl font-bold" numberOfLines={2}>
               {reportName}

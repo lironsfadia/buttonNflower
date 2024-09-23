@@ -19,7 +19,7 @@ const ImageSlider = ({ images }: ImageSliderProps) => {
 
   return (
     <>
-      <Image source={{ uri: images?.[currentIndex] }} className="aspect-video w-5/6 rounded-xl" />
+      <Image source={{ uri: images?.[currentIndex] }} className="aspect-video rounded-xl" />
       <View className="absolute inset-0 flex flex-row items-center justify-between p-4">
         <TouchableOpacity onPress={goToPrevious} className="rounded-full bg-white/50 p-2">
           <Feather icon="chevrons-left" color="black" size={24} />
