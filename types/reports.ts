@@ -6,17 +6,21 @@ interface Coordinates {
 interface FloweringReport {
   id: number;
   reportName: string;
+  reportContent: string;
   plantIds: number[];
   userId: number;
   reportDate: string;
   viewCount: number;
   likeCount: number;
   status: 'approved' | 'pending' | 'rejected';
-  location: Coordinates;
+  location: {
+    lat: number;
+    lng: number;
+  };
   itemCount: number;
   freePics: string[];
 }
 
-interface listItem {
+interface ListItem {
   item: FloweringReport;
 }

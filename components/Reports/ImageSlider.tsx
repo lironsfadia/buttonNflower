@@ -3,7 +3,7 @@ import { View, Image, TouchableOpacity, Text } from 'react-native';
 import Feather from '@expo/vector-icons/Feather';
 
 interface ImageSliderProps {
-  images: string[];
+  images: string[] | undefined;
 }
 
 const ImageSlider = ({ images }: ImageSliderProps) => {
@@ -18,8 +18,8 @@ const ImageSlider = ({ images }: ImageSliderProps) => {
   };
 
   return (
-    <View className="flex-1 items-center justify-center">
-      <Image source={{ uri: images[currentIndex] }} className="aspect-video w-5/6 rounded-xl" />
+    <>
+      <Image source={{ uri: images?.[currentIndex] }} className="aspect-video w-5/6 rounded-xl" />
       <View className="absolute inset-0 flex flex-row items-center justify-between p-4">
         <TouchableOpacity onPress={goToPrevious} className="rounded-full bg-white/50 p-2">
           <Feather icon="chevrons-left" color="black" size={24} />
@@ -30,10 +30,10 @@ const ImageSlider = ({ images }: ImageSliderProps) => {
       </View>
       <View className="absolute bottom-0 w-5/6 bg-black/20 px-4 py-2">
         <Text className="text-center text-white">
-          Image {currentIndex + 1} of {images.length}
+          Image {currentIndex + 1} of {images?.length}
         </Text>
       </View>
-    </View>
+    </>
   );
 };
 
