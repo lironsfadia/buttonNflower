@@ -4,10 +4,9 @@ import { PostgrestError } from '@supabase/supabase-js';
 
 import { useAuth } from '~/contexts/authProvider';
 import { supabase } from '~/utils/supabase';
-import ReportListItem from '~/components/Reports/ReportListItem';
 
 const useReports = () => {
-  const [events, setEvents] = useState<any[] | null>([]);
+  const [reports, setReports] = useState<FloweringReport[] | null>([]);
   const [error, setError] = useState<PostgrestError | null>(null);
   const [loading, setLoading] = useState(true);
   const [username, setUsername] = useState('');
@@ -18,16 +17,16 @@ const useReports = () => {
   const { session, user } = useAuth();
 
   useEffect(() => {
-    const fetchEvents = async () => {
+    const fetchReports = async () => {
       try {
-        let { data: events, error } = await supabase.from('events').select('*');
-        setEvents(events);
+        let { data: reports, error } = await supabase.from('reports').select('*');
+        setReports(reports);
         setError(error);
       } catch (error) {
-        console.error('Error fetching events', error);
+        console.error('Error fetching reports', error);
       }
     };
-    fetchEvents();
+    fetchReports();
   }, []);
 
   useEffect(() => {
@@ -112,7 +111,7 @@ const useReports = () => {
     avatarUrl,
     setAvatarUrl,
     updateProfile,
-    events,
+    reports,
   };
 };
 

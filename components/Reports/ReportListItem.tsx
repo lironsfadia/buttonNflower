@@ -1,8 +1,9 @@
-import { Stack, Link } from 'expo-router';
 import React from 'react';
-import { Pressable, View, Text, Image, I18nManager } from 'react-native';
-import { formatDate } from '~/utils/time';
+import { Pressable, View, Text, I18nManager } from 'react-native';
+import { Link } from 'expo-router';
 import Feather from '@expo/vector-icons/Feather';
+
+import { formatDate } from '~/utils/time';
 import ImageSlider from './ImageSlider';
 
 function ReportListItem({ item }: ListItem) {

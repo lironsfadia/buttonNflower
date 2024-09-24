@@ -2,6 +2,7 @@ import { FlatList, I18nManager } from 'react-native';
 import reports from '../../assets/mock_data/reports.json';
 import ReportListItem from '~/components/Reports/ReportListItem';
 import { Stack } from 'expo-router';
+import useReports from '~/hooks/useReports';
 
 // by default, show all reports by radius/country sorted by date.
 // Add search on the top - .
@@ -40,22 +41,20 @@ import { Stack } from 'expo-router';
 // timeline screen for each plaent, location
 
 export default function Reports() {
-  //   const { listItem, events } = useEvents();
+  const { reports } = useReports();
   // Force RTL for the entire app
   I18nManager.forceRTL(true);
   I18nManager.allowRTL(true);
-
-  const listItem = ({ item }: ListItem) => {
-    return <ReportListItem item={item} />;
-  };
 
   return (
     <>
       <Stack.Screen options={{ title: 'Flowering Today' }} />
       <FlatList
         className="bg-white"
-        data={reports}
-        renderItem={listItem}
+        data={[]}
+        renderItem={({ item }: ListItem) => {
+          return <ReportListItem item={item} />;
+        }}
         keyExtractor={(item) => item.id}
       />
     </>
