@@ -9,29 +9,28 @@ import ImageSlider from './ImageSlider';
 function ReportListItem({ item }: ListItem) {
   const {
     id,
-    reportName: title,
+    name: title,
     plantIds,
     userId,
-    reportDate: date,
+    created_at: date,
     viewCount,
     likeCount,
     status,
-    location,
-    itemCount,
-    freePics,
+    latitude,
+    longitude,
+    itemsCount,
+    pics,
   } = item;
 
   // Force RTL for the entire app
   I18nManager.forceRTL(true);
   I18nManager.allowRTL(true);
 
-  console.log(item);
-
   const time = formatDate(date);
   return (
     <View className="flex-1 flex-col p-3">
       <View className="flex-3">
-        <ImageSlider images={freePics} />
+        <ImageSlider images={pics} />
       </View>
       <View className="flex-3">
         <Link

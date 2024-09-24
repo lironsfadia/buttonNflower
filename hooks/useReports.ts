@@ -7,7 +7,7 @@ import { supabase } from '~/utils/supabase';
 
 const useReports = () => {
   const [reports, setReports] = useState<FloweringReport[] | null>([]);
-  const [error, setError] = useState<PostgrestError | null>(null);
+  const [, setError] = useState<PostgrestError | null>(null);
   const [loading, setLoading] = useState(true);
   const [username, setUsername] = useState('');
   const [fullName, setFullName] = useState('');

@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useLocalSearchParams } from 'expo-router';
+
 import { useAuth } from '~/contexts/authProvider';
 import { supabase } from '~/utils/supabase';
 import { formatDate } from '~/utils/time';
-import reports from '../assets/mock_data/reports.json';
+import { Plant } from '~/types/plants';
 
 interface EventOutput {
   report: FloweringReport | undefined;
+  reporter: any | undefined;
+  plants: Plant[] | null;
   onLike: () => void;
   loading: boolean;
   time: string;
@@ -15,43 +18,57 @@ interface EventOutput {
 function useReport(): EventOutput {
   const { id } = useLocalSearchParams();
   const { user } = useAuth();
-  const [attendance, setAttendance] = useState<any | null>(null);
-  //const [report, setReport] = useState<any | null>(null);
+  const [plants, setPlants] = useState<any | null>(null);
+  const [report, setReport] = useState<any | null>(null);
+  const [reporter, setReporter] = useState<any | null>(null);
   const [error, setError] = useState<unknown | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const report = reports.find((report) => report.id === Number(id));
+  useEffect(() => {
+    const fetchReporter = async () => {
+      try {
+        setLoading(true);
+        let { data, error } = await supabase
+          .from('reports')
+          .select('*, profiles(*)')
+          .eq('id', id)
+          .single();
 
-  // useEffect(() => {
-  //   const fetchAttendance = async () => {
-  //     try {
-  //       setLoading(true);
-  //       let { data, error } = await supabase
-  //         .from('attendance')
-  //         .select('*')
-  //         .eq('event_id', id)
-  //         .eq('user_id', user?.id)
-  //         .single();
-  //       setAttendance(data);
-  //       setLoading(false);
-  //     } catch (e: unknown) {
-  //       setError(e);
-  //     }
-  //   };
+        setReporter(data.profiles);
+        setLoading(false);
+      } catch (e: unknown) {
+        setError(e);
+      }
+    };
+    const fetchPlants = async () => {
+      try {
+        setLoading(true);
+        let { data, error } = await supabase
+          .from('flower_report_plants')
+          .select('*, plants(*)')
+          .eq('reportId', id);
 
-  //   const fetchEvent = async () => {
-  //     try {
-  //       setLoading(true);
-  //       let { data, error } = await supabase.from('events').select('*').eq('id', id).single();
-  //       setEvent(data);
-  //       setLoading(false);
-  //     } catch (e: unknown) {
-  //       setError(e);
-  //     }
-  //   };
-  //   fetchAttendance();
-  //   fetchEvent();
-  // }, [id]);
+        setPlants(data?.map((d) => d.plants));
+        setLoading(false);
+      } catch (e: unknown) {
+        setError(e);
+      }
+    };
+
+    const fetchReport = async () => {
+      try {
+        setLoading(true);
+        let { data, error } = await supabase.from('reports').select('*').eq('id', id).single();
+        setReport(data);
+        setLoading(false);
+      } catch (e: unknown) {
+        setError(e);
+      }
+    };
+    fetchPlants();
+    fetchReport();
+    fetchReporter();
+  }, [id]);
 
   const { reportDate } = report || {};
   const time = formatDate(reportDate);
@@ -72,7 +89,7 @@ function useReport(): EventOutput {
   //   }
   // };
 
-  return { report, onLike, loading, time };
+  return { report, plants, onLike, loading, time, reporter };
 }
 
 export default useReport;

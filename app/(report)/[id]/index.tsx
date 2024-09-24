@@ -5,31 +5,17 @@ import ImageSlider from '~/components/Reports/ImageSlider';
 import Feather from '@expo/vector-icons/Feather';
 
 function EventScreen() {
-  const { report, onLike, loading, time } = useReport();
+  const { report, onLike, loading, time, plants, reporter } = useReport();
+
   // Force RTL for the entire app
   I18nManager.forceRTL(true);
   I18nManager.allowRTL(true);
-  const { id, reportName, reportDate, reportContent, freePics, plantIds, userId, likeCount } =
-    report || {};
 
-  /*
+  const { id, name, created_at, content, pics, plantIds, userId, likeCount } = report || {};
 
-  plantIds: number[];
-  userId: number;
-  reportDate: string;
-  viewCount: number;
-  likeCount: number;
-  status: 'approved' | 'pending' | 'rejected';
-  location: {
-    lat: number;
-    lng: number;
-  };
-  itemCount: number;
-  */
-
-  // if (loading) {
-  //   return <ActivityIndicator />;
-  // }
+  if (loading) {
+    return <ActivityIndicator />;
+  }
 
   if (!report) {
     return (
@@ -46,18 +32,18 @@ function EventScreen() {
           options={{ title: 'Report', headerBackTitleVisible: false, headerTintColor: 'black' }}
         />
         <View className="flex-3 px-2">
-          <ImageSlider images={freePics} />
+          <ImageSlider images={pics} />
         </View>
 
         <View className="flex-row gap-0 px-4">
           <View className="flex-1 items-start">
             {/* <Image className="aspect-video w-full" source={{ uri: image_uri }} /> */}
             <Text className="mt-1 text-xl font-bold" numberOfLines={2}>
-              {reportName}
+              {name}
             </Text>
-            <Text className="text-lg font-semibold uppercase">{userId}</Text>
+            <Text className="text-lg font-semibold uppercase">{reporter.username}</Text>
             <Text className="text-lg font-semibold uppercase text-amber-700">{time}</Text>
-            <Text className="text-md text-right">{reportContent}</Text>
+            <Text className="text-md text-right">{content}</Text>
           </View>
 
           <View className="flex-3 flex-row gap-1">
@@ -66,10 +52,13 @@ function EventScreen() {
           </View>
         </View>
 
-        <View className="flex-2 px-4">
-          {plantIds?.map((plantId) => (
-            <View className="flex-row items-center justify-between" key={plantId}>
-              <Text className="text-lg font-bold">Plant ID: {plantId}</Text>
+        <View className="flex-2 items-start px-4">
+          <Text className="text-right text-2xl font-bold">הפרחים שנצפו:</Text>
+          {plants?.map(({ id, name }) => (
+            <View className="flex-row items-center justify-between" key={id}>
+              <Link href={`/(plant)/${id}`} className="mt-1 text-lg  font-extrabold text-green-600">
+                <Text className="text-lg font-bold">{name}</Text>
+              </Link>
             </View>
           ))}
         </View>

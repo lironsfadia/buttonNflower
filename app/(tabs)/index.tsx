@@ -51,7 +51,7 @@ export default function Reports() {
       <Stack.Screen options={{ title: 'Flowering Today' }} />
       <FlatList
         className="bg-white"
-        data={[]}
+        data={reports}
         renderItem={({ item }: ListItem) => {
           return <ReportListItem item={item} />;
         }}

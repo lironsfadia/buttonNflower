@@ -5,20 +5,18 @@ interface Coordinates {
 
 interface FloweringReport {
   id: number;
-  reportName: string;
-  reportContent: string;
+  name: string;
+  content: string;
   plantIds: number[];
   userId: number;
-  reportDate: string;
+  created_at: string;
   viewCount: number;
   likeCount: number;
-  status: 'approved' | 'pending' | 'rejected';
-  location: {
-    lat: number;
-    lng: number;
-  };
-  itemCount: number;
-  freePics: string[];
+  status: 'מאושר' | 'ממתין לאישור' | 'נדחה';
+  longitude: number;
+  latitude: number;
+  itemsCount: number;
+  pics: string[];
 }
 
 interface ListItem {
