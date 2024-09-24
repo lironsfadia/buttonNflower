@@ -1,13 +1,23 @@
-import { Link, Tabs } from 'expo-router';
+import { Link, Redirect, Tabs } from 'expo-router';
 
 import { HeaderButton } from '../../components/HeaderButton';
 import { TabBarIcon } from '../../components/TabBarIcon';
+import { useAuth } from '~/contexts/authProvider';
+import { Button } from 'react-native';
+import { supabase } from '~/utils/supabase';
 
 export default function TabLayout() {
+  const { isAuth } = useAuth();
+
+  if (!isAuth) {
+    return <Redirect href={'/login'} />;
+  }
+
   return (
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: 'black',
+        headerRight: () => <Button onPress={() => supabase.auth.signOut()} title="Sign out" />,
       }}>
       <Tabs.Screen
         name="index"
@@ -22,9 +32,9 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="profile"
         options={{
-          title: 'Tab Two',
+          title: 'Profile',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />

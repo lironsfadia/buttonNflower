@@ -1,12 +1,12 @@
-import { ListItem } from '@/types/types';
-import EventListItem from '@/components/EventListItem'; // Add import statement for EventListItem
-import { useAuth } from '@/contexts/AuthProvider';
-import { supabase } from '@/utils/supabase';
 import { useState, useEffect } from 'react';
 import { Alert } from 'react-native';
 import { PostgrestError } from '@supabase/supabase-js';
 
-const useEvents = () => {
+import { useAuth } from '~/contexts/authProvider';
+import { supabase } from '~/utils/supabase';
+import ReportListItem from '~/components/Reports/ReportListItem';
+
+const useReports = () => {
   const [events, setEvents] = useState<any[] | null>([]);
   const [error, setError] = useState<PostgrestError | null>(null);
   const [loading, setLoading] = useState(true);
@@ -101,12 +101,7 @@ const useEvents = () => {
     }
   }
 
-  const listItem = ({ item }: ListItem) => {
-    return <EventListItem item={item} />;
-  };
-
   return {
-    listItem,
     loading,
     username,
     setUsername,
@@ -121,4 +116,4 @@ const useEvents = () => {
   };
 };
 
-export default useEvents;
+export default useReports;

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLocalSearchParams } from 'expo-router';
-import { useAuth } from '~/contexts/useAuthProvider';
+import { useAuth } from '~/contexts/authProvider';
 import { supabase } from '~/utils/supabase';
 import { formatDate } from '~/utils/time';
 import reports from '../assets/mock_data/reports.json';
@@ -12,7 +12,7 @@ interface EventOutput {
   time: string;
 }
 
-function useEvent(): EventOutput {
+function useReport(): EventOutput {
   const { id } = useLocalSearchParams();
   const { user } = useAuth();
   const [attendance, setAttendance] = useState<any | null>(null);
@@ -75,4 +75,4 @@ function useEvent(): EventOutput {
   return { report, onLike, loading, time };
 }
 
-export default useEvent;
+export default useReport;
