@@ -20,7 +20,7 @@ function useReport(): EventOutput {
   const { user } = useAuth();
   const [plants, setPlants] = useState<any | null>(null);
   const [report, setReport] = useState<any | null>(null);
-  const [reporter, setReporter] = useState<any | null>(null);
+  const [reporter, setReporter] = useState<User | null>(null);
   const [error, setError] = useState<unknown | null>(null);
   const [loading, setLoading] = useState(true);
 

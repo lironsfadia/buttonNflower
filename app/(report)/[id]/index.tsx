@@ -6,6 +6,7 @@ import Feather from '@expo/vector-icons/Feather';
 
 function EventScreen() {
   const { report, onLike, loading, time, plants, reporter } = useReport();
+  const { username } = reporter;
 
   // Force RTL for the entire app
   I18nManager.forceRTL(true);
@@ -41,7 +42,12 @@ function EventScreen() {
             <Text className="mt-1 text-xl font-bold" numberOfLines={2}>
               {name}
             </Text>
-            <Text className="text-lg font-semibold uppercase">{reporter.username}</Text>
+
+            <Link
+              href={`/(user)/${userId}`}
+              className="mt-1 text-lg  font-extrabold text-green-600">
+              <Text className="text-lg font-semibold uppercase">{username}</Text>
+            </Link>
             <Text className="text-lg font-semibold uppercase text-amber-700">{time}</Text>
             <Text className="text-md text-right">{content}</Text>
           </View>
