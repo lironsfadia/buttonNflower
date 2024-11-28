@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useIsFocused } from '@react-navigation/native';
 import { useLocalSearchParams } from 'expo-router';
+import { useState, useEffect } from 'react';
 
 import { useAuth } from '~/contexts/authProvider';
+import { Plant } from '~/screens/PlantsScreen/plants';
+import { FloweringReport } from '~/screens/ReportsScreen/reports';
 import { supabase } from '~/utils/supabase';
 import { formatDate } from '~/utils/time';
-import { Plant } from '~/types/plants';
 
 interface EventOutput {
   report: FloweringReport | undefined;
@@ -16,6 +18,7 @@ interface EventOutput {
 }
 
 function useReport(): EventOutput {
+  const isFocused = useIsFocused();
   const { id } = useLocalSearchParams();
   const { user } = useAuth();
   const [plants, setPlants] = useState<any | null>(null);
@@ -24,16 +27,28 @@ function useReport(): EventOutput {
   const [error, setError] = useState<unknown | null>(null);
   const [loading, setLoading] = useState(true);
 
+  console.log('ttt useReport', id);
+
   useEffect(() => {
+    console.log('ttt inside useEffect', { id, typeOfId: typeof id });
+
+    // Ensure id exists
+    if (!id) {
+      console.log('ttt no id provided');
+      return;
+    }
     const fetchReporter = async () => {
       try {
         setLoading(true);
-        let { data, error } = await supabase
+        console.log('ttt data1');
+
+        const { data, error } = await supabase
           .from('reports')
           .select('*, profiles(*)')
           .eq('id', id)
           .single();
 
+        console.log('ttt data', data);
         setReporter(data.profiles);
         setLoading(false);
       } catch (e: unknown) {
@@ -43,7 +58,7 @@ function useReport(): EventOutput {
     const fetchPlants = async () => {
       try {
         setLoading(true);
-        let { data, error } = await supabase
+        const { data, error } = await supabase
           .from('flower_report_plants')
           .select('*, plants(*)')
           .eq('reportId', id);
@@ -58,17 +73,18 @@ function useReport(): EventOutput {
     const fetchReport = async () => {
       try {
         setLoading(true);
-        let { data, error } = await supabase.from('reports').select('*').eq('id', id).single();
+        const { data, error } = await supabase.from('reports').select('*').eq('id', id).single();
         setReport(data);
         setLoading(false);
       } catch (e: unknown) {
         setError(e);
       }
     };
+    console.log('ttt fetch');
     fetchPlants();
     fetchReport();
     fetchReporter();
-  }, [id]);
+  }, [id, isFocused]);
 
   const { reportDate } = report || {};
   const time = formatDate(reportDate);

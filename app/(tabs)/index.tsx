@@ -1,8 +1,19 @@
-import { FlatList, I18nManager } from 'react-native';
+import { Film } from 'lucide-react-native';
+import React from 'react';
+import {
+  ActivityIndicator,
+  FlatList,
+  I18nManager,
+  SafeAreaView,
+  View,
+  Text,
+  StyleSheet,
+} from 'react-native';
+
 import reports from '../../assets/mock_data/reports.json';
-import ReportListItem from '~/components/Reports/ReportListItem';
-import { Stack } from 'expo-router';
-import useReports from '~/hooks/useReports';
+
+import { ITEMS } from '~/consts/list';
+import useReports from '~/screens/ReportsScreen/hooks/useReports';
 
 // by default, show all reports by radius/country sorted by date.
 // Add search on the top - .
@@ -40,23 +51,67 @@ import useReports from '~/hooks/useReports';
 
 // timeline screen for each plaent, location
 
+// navigation to the plant screen from the report screen.
+// navigate to the flower
+// focus on the flower - reconize the flower and show the report.
+// camaera - label recognition.
+
 export default function Reports() {
-  const { reports } = useReports();
+  const {
+    reports,
+    error,
+    loading,
+    renderItem,
+    keyExtractor,
+    onEndReached,
+    renderFooter,
+    renderSeparator,
+  } = useReports();
   // Force RTL for the entire app
   I18nManager.forceRTL(true);
   I18nManager.allowRTL(true);
 
+  if (error) {
+    return (
+      <View className="flex-1 justify-center align-middle">
+        <Text className="text-lg font-bold text-red-400">{error.message}</Text>
+      </View>
+    );
+  }
+
+  if (loading && reports?.length === 0) {
+    return (
+      <View className="flex-1 justify-center align-middle">
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
+
   return (
-    <>
-      <Stack.Screen options={{ title: 'Flowering Today' }} />
+    <SafeAreaView className="flex-1 p-2">
+      <View className="ios:p-6 android:p-4 mb-6 flex-row justify-start gap-2 border-b border-b-gray-200 bg-white">
+        <Film size={ITEMS.ICON_SIZE_LARGE} />
+        <Text className="ml-2 text-2xl font-bold color-green-600">Movies List!</Text>
+      </View>
+
       <FlatList
-        className="bg-white"
+        className="flex-1 bg-white"
         data={reports}
-        renderItem={({ item }: ListItem) => {
-          return <ReportListItem item={item} />;
-        }}
-        keyExtractor={(item) => item.id}
+        renderItem={renderItem}
+        keyExtractor={keyExtractor}
+        onEndReached={onEndReached}
+        contentContainerStyle={styles.listContainer}
+        onEndReachedThreshold={ITEMS.LIST.THRESHOLD}
+        ListFooterComponent={renderFooter}
+        ItemSeparatorComponent={renderSeparator}
       />
-    </>
+    </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  listContainer: {
+    padding: ITEMS.STYLES.PADDING,
+    gap: ITEMS.STYLES.GAP,
+  },
+});

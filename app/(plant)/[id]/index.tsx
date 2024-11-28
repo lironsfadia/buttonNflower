@@ -1,7 +1,8 @@
 import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
-import { Plant } from '~/types/plants';
+
+import { Plant } from '~/screens/PlantsScreen/plants';
 import { supabase } from '~/utils/supabase';
 
 const PlantScreen = () => {
@@ -15,9 +16,9 @@ const PlantScreen = () => {
     const fetchPlant = async () => {
       try {
         setLoading(true);
-        let { data, error } = await supabase.from('plants').select('*').eq('id', id);
+        const { data, error } = await supabase.from('plants').select('*').eq('id', id);
 
-        setPlant(data);
+        setPlant(data ? data[0] : null);
         setLoading(false);
       } catch (e: unknown) {
         setError(e);

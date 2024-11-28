@@ -21,4 +21,9 @@ interface FloweringReport {
 
 interface ListItem {
   item: FloweringReport;
+  index: number;
+  onPressHeart: (id: number) => void;
+  isFavorite: boolean;
 }
+
+export { ListItem, FloweringReport, Coordinates };

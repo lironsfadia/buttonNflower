@@ -1,9 +1,9 @@
-import { Pressable, TextInput, View, Text } from 'react-native';
 import { Stack } from 'expo-router';
+import { Pressable, TextInput, View, Text } from 'react-native';
 
-import { useAuth } from '~/contexts/authProvider';
 import Avatar from '~/components/Avatar';
-import useReports from '~/hooks/useReports';
+import { useAuth } from '~/contexts/authProvider';
+import useReports from '~/screens/ReportsScreen/hooks/useReports';
 
 export default function Home() {
   const {
@@ -38,7 +38,7 @@ export default function Home() {
         editable={false}
         value={session?.user?.email}
         placeholder="email"
-        autoCapitalize={'none'}
+        autoCapitalize="none"
         className="rounded-md border-2 border-gray-300 p-3 text-gray-500"
       />
 
@@ -46,7 +46,7 @@ export default function Home() {
         onChangeText={(text) => setUsername(text)}
         value={username}
         placeholder="user name"
-        autoCapitalize={'none'}
+        autoCapitalize="none"
         className="rounded-md border-2 border-gray-300 p-3"
       />
 
@@ -54,7 +54,7 @@ export default function Home() {
         onChangeText={(text) => setFullName(text)}
         value={fullName}
         placeholder="full name"
-        autoCapitalize={'none'}
+        autoCapitalize="none"
         className="rounded-md border-2 border-gray-300 p-3"
       />
 
@@ -62,7 +62,7 @@ export default function Home() {
         onChangeText={(text) => setWebsite(text)}
         value={website}
         placeholder="website"
-        autoCapitalize={'none'}
+        autoCapitalize="none"
         className="rounded-md border-2 border-gray-300 p-3"
       />
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, TextInput, Pressable, Text } from 'react-native';
 import { Stack } from 'expo-router';
-import useLogin from '~/hooks/useLogin';
+import useLogin from '~/screens/LoginScreen/hooks/useLogin';
 
 function Login() {
   const { setEmail, email, setPassword, password, signInWithEmail, loading, signUpWithEmail } =
@@ -15,7 +15,7 @@ function Login() {
       <TextInput
         onChangeText={(text) => setEmail(text)}
         value={email}
-        placeholder="email@address.com"
+        placeholder="email@gmail.com"
         autoCapitalize={'none'}
         className="rounded-md border-2 border-gray-300 p-3"
       />

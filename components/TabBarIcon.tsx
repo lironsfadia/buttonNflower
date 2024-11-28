@@ -1,15 +1,23 @@
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { StyleSheet } from 'react-native';
+import { TABS } from 'consts/tabs';
+import { Code, Film, Flower, Home, Search, Settings, Star } from 'lucide-react-native';
+import { useMemo } from 'react';
 
-export const TabBarIcon = (props: {
-  name: React.ComponentProps<typeof Ionicons>['name'];
-  color: string;
-}) => {
-  return <Ionicons size={28} style={styles.tabBarIcon} {...props} />;
+import { TabBarIconProps, TabIcons } from './types';
+
+const icons: TabIcons = {
+  film: Film,
+  star: Star,
+  flower: Flower,
+  code: Code,
 };
 
-export const styles = StyleSheet.create({
-  tabBarIcon: {
-    marginBottom: -3,
-  },
-});
+export const TabBarIcon = ({ name, color, focused }: TabBarIconProps) => {
+  const Icon = icons[name];
+
+  const styles = useMemo(
+    () => `mb-[-3px] ${focused ? TABS.OPACITY.ACTIVE : TABS.OPACITY.INACTIVE}`,
+    [focused]
+  );
+
+  return <Icon size={TABS.ICON_SIZE} className={styles} color={color} />;
+};

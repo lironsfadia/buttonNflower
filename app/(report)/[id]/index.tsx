@@ -1,12 +1,14 @@
-import { View, Text, Image, Pressable, ActivityIndicator, I18nManager } from 'react-native';
-import { Link, Stack } from 'expo-router';
-import useReport from '~/hooks/useReport';
-import ImageSlider from '~/components/Reports/ImageSlider';
 import Feather from '@expo/vector-icons/Feather';
+import { Link, Stack } from 'expo-router';
+import { View, Text, Pressable, ActivityIndicator, I18nManager } from 'react-native';
 
-function EventScreen() {
+import useReport from '~/screens/ReportScreen/hooks/useReport';
+import ImageSlider from '~/screens/ReportsScreen/components/ImageSlider';
+
+function ReportScreen() {
   const { report, onLike, loading, time, plants, reporter } = useReport();
-  const { username } = reporter;
+  console.log({ reporter });
+  const { username } = reporter ?? '';
 
   // Force RTL for the entire app
   I18nManager.forceRTL(true);
@@ -75,11 +77,11 @@ function EventScreen() {
         {true ? (
           <>
             <Text className="font-bold text-green-600">You Are Attending!</Text>
-            <Link
+            {/* <Link
               href={`/(report)/${id}/attendance`}
               className="mt-1 text-lg  font-extrabold text-green-600">
               View Attendees
-            </Link>
+            </Link> */}
           </>
         ) : (
           <Pressable onPress={onLike} className="rounded-md bg-red-400 p-5">
@@ -91,4 +93,4 @@ function EventScreen() {
   );
 }
 
-export default EventScreen;
+export default ReportScreen;
