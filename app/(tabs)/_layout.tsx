@@ -29,7 +29,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Search',
+          title: 'חיפוש',
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name="flower" color={color} focused={focused} />
           ),
@@ -41,9 +41,18 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="watchlist"
+        options={{
+          title: 'מעודפים',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name="star" color={color} focused={focused} />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name="profile"
         options={{
-          title: 'Profile',
+          title: 'פרופיל',
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name="code" color={color} focused={focused} />
           ),

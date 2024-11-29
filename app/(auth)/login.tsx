@@ -1,6 +1,7 @@
+import { Stack } from 'expo-router';
 import React from 'react';
 import { View, TextInput, Pressable, Text } from 'react-native';
-import { Stack } from 'expo-router';
+
 import useLogin from '~/screens/LoginScreen/hooks/useLogin';
 
 function Login() {
@@ -16,15 +17,15 @@ function Login() {
         onChangeText={(text) => setEmail(text)}
         value={email}
         placeholder="email@gmail.com"
-        autoCapitalize={'none'}
+        autoCapitalize="none"
         className="rounded-md border-2 border-gray-300 p-3"
       />
       <TextInput
         onChangeText={(text) => setPassword(text)}
         value={password}
-        secureTextEntry={true}
+        secureTextEntry
         placeholder="Password"
-        autoCapitalize={'none'}
+        autoCapitalize="none"
         className="rounded-md border-2 border-gray-300 p-3"
       />
       <View className="flex-row justify-center gap-3">

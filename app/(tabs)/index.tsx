@@ -10,8 +10,6 @@ import {
   StyleSheet,
 } from 'react-native';
 
-import reports from '../../assets/mock_data/reports.json';
-
 import { ITEMS } from '~/consts/list';
 import useReports from '~/screens/ReportsScreen/hooks/useReports';
 

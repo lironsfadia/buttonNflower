@@ -10,8 +10,10 @@ function ReportListItem({ item, index, onPressHeart, isFavorite }: ListItem) {
   const { id, name: title, created_at: date, viewCount, pics } = item;
 
   // Force RTL for the entire app
-  I18nManager.forceRTL(true);
-  I18nManager.allowRTL(true);
+  React.useEffect(() => {
+    I18nManager.forceRTL(true);
+    I18nManager.allowRTL(true);
+  }, []);
 
   const time = formatDate(date);
 
@@ -31,35 +33,8 @@ function ReportListItem({ item, index, onPressHeart, isFavorite }: ListItem) {
           shadowRadius: 8,
           elevation: 5,
         }}>
-        <View className="flex-row gap-4">
-          {/* Index number */}
-          <View className="mr-2 h-8 w-8 items-center justify-center rounded-full bg-gray-100">
-            <Text className="text-base font-bold text-gray-600">#{index + 1}</Text>
-          </View>
-
-          {/* Image slider */}
-          <View className="h-28 w-20 overflow-hidden rounded-lg">
-            <ImageSlider
-              images={pics}
-              containerStyle={{
-                shadowColor: '#000',
-                shadowOffset: { width: 0, height: 2 },
-                shadowOpacity: 0.1,
-                shadowRadius: 4,
-              }}
-            />
-          </View>
-
-          {/* Content */}
-          <View className="ml-3 flex-1">
-            <Text className="mb-2 text-lg font-bold text-gray-900" numberOfLines={2}>
-              {title}
-            </Text>
-            <Text className="text-base text-gray-600">{viewCount || 0} views</Text>
-            <Text className="text-sm text-amber-700">{time}</Text>
-          </View>
-
-          {/* Heart button */}
+        <View className="flex-row justify-end gap-4">
+          {/* Heart button - moved to the left side in RTL */}
           <Pressable
             onPress={(e) => {
               e.stopPropagation();
@@ -80,10 +55,29 @@ function ReportListItem({ item, index, onPressHeart, isFavorite }: ListItem) {
               fill={isFavorite ? '#ef4444' : 'none'}
             />
           </Pressable>
+
+          {/* Content */}
+          <View className="flex-1">
+            <Text className="mb-2 text-right text-lg font-bold text-gray-900" numberOfLines={2}>
+              {title}
+            </Text>
+            <Text className="text-right text-base text-gray-600">{viewCount || 0} views</Text>
+            <Text className="text-right text-sm text-amber-700">{time}</Text>
+          </View>
+
+          {/* Image slider */}
+          <View className="h-28 w-20 overflow-hidden rounded-lg">
+            <ImageSlider images={pics} />
+          </View>
+
+          {/* Index number */}
+          <View className="ml-2 h-8 w-8 items-center justify-center rounded-full bg-gray-100">
+            <Text className="text-base font-bold text-gray-600">#{index + 1}</Text>
+          </View>
         </View>
 
         {/* Action buttons */}
-        <View className="mt-3 flex-row gap-3">
+        <View className="mt-3 flex-row justify-end gap-3">
           <Share size={20} color="grey" />
           <Save size={20} color="grey" />
         </View>

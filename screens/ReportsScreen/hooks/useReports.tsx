@@ -173,7 +173,7 @@ const useReports = () => {
     } catch (err) {
       setError(err as PostgrestError);
 
-      console.error('Error fetching movies:', err);
+      console.error('Error fetching reports:', err);
     } finally {
       setLoading(false);
     }

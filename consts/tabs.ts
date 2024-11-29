@@ -12,7 +12,7 @@ export const TABS = {
   },
 
   TAB_NAMES: {
-    MOVIES: 'Movies',
-    WATCHLIST: 'Watchlist',
+    SEARCH: 'search',
+    FAVORITES: 'favorites',
   },
 } as const;
