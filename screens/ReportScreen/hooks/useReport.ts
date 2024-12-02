@@ -48,6 +48,8 @@ function useReport(): EventOutput {
           .eq('id', id)
           .single();
 
+          console.log('ttt data', data);
+
         console.log('ttt data', data);
         setReporter(data.profiles);
         setLoading(false);

@@ -1,9 +1,9 @@
-import { ThemeProvider, DarkTheme, DefaultTheme } from '@react-navigation/native';
 import '../global.css';
 
 import { ErrorBoundary, SplashScreen, Stack } from 'expo-router';
 import { useState, useEffect } from 'react';
 import { useColorScheme, View } from 'react-native';
+
 import AuthProvider from '~/contexts/authProvider';
 
 export const unstable_settings = {

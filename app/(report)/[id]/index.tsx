@@ -45,9 +45,7 @@ function ReportScreen() {
               {name}
             </Text>
 
-            <Link
-              href={`/(user)/${userId}`}
-              className="mt-1 text-lg  font-extrabold text-green-600">
+            <Link href={`/(user)/${userId}`} className="mt-1 text-lg font-extrabold text-green-600">
               <Text className="text-lg font-semibold uppercase">{username}</Text>
             </Link>
             <Text className="text-lg font-semibold uppercase text-amber-700">{time}</Text>

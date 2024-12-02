@@ -1,79 +1,36 @@
-import { Stack } from 'expo-router';
-import { Pressable, TextInput, View, Text } from 'react-native';
+import { Film } from 'lucide-react-native';
+import { SafeAreaView, View, FlatList, Text, StyleSheet } from 'react-native';
 
-import Avatar from '~/components/Avatar';
-import { useAuth } from '~/contexts/authProvider';
-import useReports from '~/screens/ReportsScreen/hooks/useReports';
+import { SCREENS } from '~/consts/screens';
+import { useWatchlistReports } from '~/screens/whitelistScreen/hooks/useWatchlistReports';
 
-export default function Home() {
-  const {
-    loading,
-    username,
-    setUsername,
-    fullName,
-    setFullName,
-    website,
-    setWebsite,
-    avatarUrl,
-    setAvatarUrl,
-    updateProfile,
-  } = useReports();
-
-  const { session, user } = useAuth();
+export default function Watchlist() {
+  const { keyExtractor, renderItem, whitelist, getItemLayout, renderSeparator } = useWatchlistReports();
 
   return (
-    <View className="flex-1 gap-3 bg-white p-4">
-      <Stack.Screen options={{ title: 'Profile' }} />
+    <SafeAreaView className="flex-1 p-2">
+      <View className="ios:p-6 android:p-4 mb-6 flex-row justify-start gap-2 border-b border-b-gray-200 bg-white">
+        <Film size={SCREENS.ICON_SIZE_LARGE} color="red" />
+        <Text className="ml-2 text-2xl font-bold color-red-600">Flowering Reports</Text>
+      </View>
 
-      <Avatar
-        size={200}
-        url={avatarUrl}
-        onUpload={(url: string) => {
-          setAvatarUrl(url);
-          updateProfile({ username, website, avatar_url: url });
-        }}
+      <FlatList
+        className="flex-1 bg-white"
+        data={whitelist}
+        renderItem={renderItem}
+        keyExtractor={keyExtractor}
+        contentContainerStyle={styles.listContainer}
+        onEndReachedThreshold={SCREENS.LIST.THRESHOLD}
+        ItemSeparatorComponent={renderSeparator}
+        getItemLayout={getItemLayout}
       />
-
-      <TextInput
-        editable={false}
-        value={session?.user?.email}
-        placeholder="email"
-        autoCapitalize="none"
-        className="rounded-md border-2 border-gray-300 p-3 text-gray-500"
-      />
-
-      <TextInput
-        onChangeText={(text) => setUsername(text)}
-        value={username}
-        placeholder="user name"
-        autoCapitalize="none"
-        className="rounded-md border-2 border-gray-300 p-3"
-      />
-
-      <TextInput
-        onChangeText={(text) => setFullName(text)}
-        value={fullName}
-        placeholder="full name"
-        autoCapitalize="none"
-        className="rounded-md border-2 border-gray-300 p-3"
-      />
-
-      <TextInput
-        onChangeText={(text) => setWebsite(text)}
-        value={website}
-        placeholder="website"
-        autoCapitalize="none"
-        className="rounded-md border-2 border-gray-300 p-3"
-      />
-
-      <Pressable
-        className="items-center rounded-md border-2 border-blue-400 p-5 px-8"
-        onPress={() =>
-          updateProfile({ username, website, avatar_url: avatarUrl, full_name: fullName })
-        }
-        disabled={loading}>
-        <Text className="font-bold text-blue-500 ">Save</Text>
-      </Pressable>
-    </View>
+    </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  listContainer: {
+    padding: SCREENS.STYLES.PADDING,
+    gap: SCREENS.STYLES.GAP,
+  },
+});

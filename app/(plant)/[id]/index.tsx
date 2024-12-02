@@ -2,7 +2,7 @@ import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
 
-import { Plant } from '~/screens/PlantsScreen/plants';
+import { Plant } from '~/screens/PlantsScreen/types';
 import { supabase } from '~/utils/supabase';
 
 const PlantScreen = () => {

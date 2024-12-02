@@ -1,4 +1,4 @@
-import { Film } from 'lucide-react-native';
+import { Flower } from 'lucide-react-native';
 import React from 'react';
 import {
   ActivityIndicator,
@@ -10,7 +10,7 @@ import {
   StyleSheet,
 } from 'react-native';
 
-import { ITEMS } from '~/consts/list';
+import { SCREENS } from '~/consts/screens';
 import useReports from '~/screens/ReportsScreen/hooks/useReports';
 
 // by default, show all reports by radius/country sorted by date.
@@ -64,6 +64,7 @@ export default function Reports() {
     onEndReached,
     renderFooter,
     renderSeparator,
+    getItemLayout,
   } = useReports();
   // Force RTL for the entire app
   I18nManager.forceRTL(true);
@@ -88,8 +89,8 @@ export default function Reports() {
   return (
     <SafeAreaView className="flex-1 p-2">
       <View className="ios:p-6 android:p-4 mb-6 flex-row justify-start gap-2 border-b border-b-gray-200 bg-white">
-        <Film size={ITEMS.ICON_SIZE_LARGE} />
-        <Text className="ml-2 text-2xl font-bold color-green-600">Movies List!</Text>
+        <Flower size={SCREENS.ICON_SIZE_LARGE} color="green" />
+        <Text className="ml-2 text-2xl font-bold color-green-600">רשימת דיווחים</Text>
       </View>
 
       <FlatList
@@ -99,9 +100,10 @@ export default function Reports() {
         keyExtractor={keyExtractor}
         onEndReached={onEndReached}
         contentContainerStyle={styles.listContainer}
-        onEndReachedThreshold={ITEMS.LIST.THRESHOLD}
+        onEndReachedThreshold={SCREENS.LIST.THRESHOLD}
         ListFooterComponent={renderFooter}
         ItemSeparatorComponent={renderSeparator}
+        getItemLayout={getItemLayout}
       />
     </SafeAreaView>
   );
@@ -109,7 +111,7 @@ export default function Reports() {
 
 const styles = StyleSheet.create({
   listContainer: {
-    padding: ITEMS.STYLES.PADDING,
-    gap: ITEMS.STYLES.GAP,
+    padding: SCREENS.STYLES.PADDING,
+    gap: SCREENS.STYLES.GAP,
   },
 });

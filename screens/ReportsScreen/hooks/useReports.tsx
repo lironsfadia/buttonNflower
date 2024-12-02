@@ -1,16 +1,17 @@
 import { useIsFocused } from '@react-navigation/native';
 import { PostgrestError } from '@supabase/supabase-js';
-import { useState, useEffect, useCallback } from 'react';
-import { ActivityIndicator, Alert, View } from 'react-native';
+import { useState, useEffect, useCallback, useMemo } from 'react';
+import { Alert } from 'react-native';
 
+import ReportListItem from '../components/ReportListItem';
 import { getCountry, getLocale } from '../utils';
 
-import { PAGE_SIZE } from '~/consts/list';
+import { PAGE_SIZE } from '~/consts/screens';
 import { useAuth } from '~/contexts/authProvider';
 import { DataCache } from '~/data/DataCache';
+import { useListConfig } from '~/hooks/useListConfig';
 import { FloweringReport } from '~/screens/ReportsScreen/reports';
 import { supabase } from '~/utils/supabase';
-import ReportListItem from '../components/ReportListItem';
 
 const useReports = () => {
   const isFocused = useIsFocused();
@@ -32,7 +33,9 @@ const useReports = () => {
 
   const { session, user } = useAuth();
 
-  const cache = DataCache.getInstance();
+  const cache = useMemo(() => DataCache.getInstance(), []);
+
+  const { keyExtractor, getItemLayout, renderFooter, renderSeparator } = useListConfig();
 
   const fetchReports = async (pageNumber: number) => {
     try {
@@ -218,19 +221,6 @@ const useReports = () => {
     [cache, isFocused, favoriteUpdate]
   );
 
-  const keyExtractor = useCallback((item: FloweringReport) => item.id.toString(), []);
-
-  const renderFooter = useCallback(() => {
-    if (!loading) return null;
-    return (
-      <View className="items-center justify-center py-4">
-        <ActivityIndicator size="small" />
-      </View>
-    );
-  }, [loading]);
-
-  const renderSeparator = useCallback(() => <View className="my-4 h-[4px] bg-gray-800" />, []);
-
   return {
     loading,
     username,
@@ -249,6 +239,7 @@ const useReports = () => {
     onEndReached: fetchNextPage,
     renderFooter,
     renderSeparator,
+    getItemLayout,
   };
 };
 

@@ -4,7 +4,7 @@ export class DataCache {
   private static instance: DataCache;
 
   private cache: Map<number, FloweringReport[]> = new Map();
-  private whilelistCache: Map<number, FloweringReport> = new Map();
+  private watchlistCache: Map<number, FloweringReport> = new Map();
 
   private expiryTime: Map<number | string, number> = new Map();
   private readonly CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
@@ -34,38 +34,38 @@ export class DataCache {
     return this.cache.get(page) || null;
   }
 
-  setWhitelistItem(movie: FloweringReport): void {
-    this.whilelistCache.set(movie.id, movie);
-    this.expiryTime.set(`whitelist_${movie.id}`, Date.now() + this.ITEM_CACHE_DURATION);
+  setWhitelistItem(report: FloweringReport): void {
+    this.watchlistCache.set(report.id, report);
+    this.expiryTime.set(`whitelist_${report.id}`, Date.now() + this.ITEM_CACHE_DURATION);
   }
 
-  deleteWhitelistItem(movie: FloweringReport): void {
-    this.whilelistCache.delete(movie.id);
-    this.expiryTime.delete(`whitelist_${movie.id}`);
+  deleteWhitelistItem(report: FloweringReport): void {
+    this.watchlistCache.delete(report.id);
+    this.expiryTime.delete(`whitelist_${report.id}`);
   }
 
-  getWhitelistItem(id: number): FloweringReport | null {
-    if (!this.whilelistCache.has(id)) return null;
+  getWatchlistItem(id: number): FloweringReport | null {
+    if (!this.watchlistCache.has(id)) return null;
     // const expiry = this.expiryTime.get(`whitelist_${id}`);
     // if (expiry && Date.now() > expiry) {
     //   this.whilelistCache.delete(id);
     //   this.expiryTime.delete(`whitelist_${id}`);
     //   return null;
     // }
-    return this.whilelistCache.get(id) || null;
+    return this.watchlistCache.get(id) || null;
   }
 
-  getWhitelist(): FloweringReport[] {
-    return Array.from(this.whilelistCache.values());
+  getWatchlist(): FloweringReport[] {
+    return Array.from(this.watchlistCache.values());
   }
 
-  removeWhitelistItem(id: number) {
-    return this.whilelistCache.delete(id);
+  removeWatchlistItem(id: number) {
+    return this.watchlistCache.delete(id);
   }
 
   clear(): void {
     this.cache.clear();
-    this.whilelistCache.clear();
+    this.watchlistCache.clear();
     this.expiryTime.clear();
   }
 }

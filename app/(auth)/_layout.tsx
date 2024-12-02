@@ -1,4 +1,5 @@
-import { Redirect, Stack, Tabs } from 'expo-router';
+import { Redirect, Stack } from 'expo-router';
+
 import { useAuth } from '~/contexts/authProvider';
 
 export default function AuthLayout() {
@@ -8,5 +9,5 @@ export default function AuthLayout() {
     return <Redirect href="/" />;
   }
 
-  return <Stack></Stack>;
+  return <Stack />;
 }
