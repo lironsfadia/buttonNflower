@@ -90,7 +90,9 @@ export default function Reports() {
     <SafeAreaView className="flex-1 p-2">
       <View className="ios:p-6 android:p-4 mb-6 flex-row justify-start gap-2 border-b border-b-gray-200 bg-white">
         <Flower size={SCREENS.ICON_SIZE_LARGE} color="green" />
-        <Text className="ml-2 text-2xl font-bold color-green-600">רשימת דיווחים</Text>
+        <Text className="ml-2 text-2xl font-bold color-green-600">
+          {SCREENS.SCREEN_NAMES.FLOWERING_REPORTS}
+        </Text>
       </View>
 
       <FlatList

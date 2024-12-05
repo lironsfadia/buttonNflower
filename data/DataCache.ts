@@ -34,33 +34,8 @@ export class DataCache {
     return this.cache.get(page) || null;
   }
 
-  setWhitelistItem(report: FloweringReport): void {
-    this.watchlistCache.set(report.id, report);
-    this.expiryTime.set(`whitelist_${report.id}`, Date.now() + this.ITEM_CACHE_DURATION);
-  }
-
-  deleteWhitelistItem(report: FloweringReport): void {
-    this.watchlistCache.delete(report.id);
-    this.expiryTime.delete(`whitelist_${report.id}`);
-  }
-
-  getWatchlistItem(id: number): FloweringReport | null {
-    if (!this.watchlistCache.has(id)) return null;
-    // const expiry = this.expiryTime.get(`whitelist_${id}`);
-    // if (expiry && Date.now() > expiry) {
-    //   this.whilelistCache.delete(id);
-    //   this.expiryTime.delete(`whitelist_${id}`);
-    //   return null;
-    // }
-    return this.watchlistCache.get(id) || null;
-  }
-
-  getWatchlist(): FloweringReport[] {
-    return Array.from(this.watchlistCache.values());
-  }
-
-  removeWatchlistItem(id: number) {
-    return this.watchlistCache.delete(id);
+  getAll(): FloweringReport[] {
+    return Array.from(this.cache.values()).flat();
   }
 
   clear(): void {

@@ -4,39 +4,57 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import { DataCache } from '~/data/DataCache';
 import { useListConfig } from '~/hooks/useListConfig';
 import ReportListItem from '~/screens/ReportsScreen/components/ReportListItem';
-import { FloweringReport } from '~/screens/ReportsScreen/reports';
+import { FavoriteFloweringReport, FloweringReport } from '~/screens/ReportsScreen/reports';
+import { supabase } from '~/utils/supabase';
 
 export const useWatchlistReports = () => {
-  const isFocused = useIsFocused();
   const { keyExtractor, getItemLayout, renderFooter, renderSeparator } = useListConfig();
-
-  const [favoriteUpdate, setFavoriteUpdate] = useState(0);
+  const [favorites, setFavorites] = useState<FavoriteFloweringReport[]>([]);
+  const [error, setError] = useState<unknown | null>(null);
 
   const cache = useMemo(() => DataCache.getInstance(), []);
-  const [whitelist, setWhitelist] = useState<FloweringReport[]>([]);
-
-  useEffect(() => {
-    const data = cache.getWatchlist();
-    setWhitelist(data);
-  }, [isFocused, favoriteUpdate]);
-
-  const handleHeartPress = useCallback((report: FloweringReport) => {
-    cache.deleteWhitelistItem(report);
-    setFavoriteUpdate((prev) => prev + 1);
-  }, []);
+  const [watchlist, setWatchlist] = useState<FloweringReport[]>([]);
 
   const renderItem = useCallback(
     ({ item, index }: { item: FloweringReport; index: number }) => (
-      <ReportListItem
-        item={item}
-        index={index}
-        onPressHeart={() => handleHeartPress(item)}
-        isFavorite={cache.getWatchlistItem(item.id) !== null}
-      />
+      <ReportListItem item={item} index={index} />
     ),
-    [cache, favoriteUpdate]
+    []
   );
 
-  return { keyExtractor, renderItem, whitelist, getItemLayout, renderFooter, renderSeparator };
-};
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      try {
+        const { data, error } = await supabase.from('favorites').select('*');
+        if (error) {
+          throw new Error(error.message);
+        }
+        setFavorites(data || []);
+      } catch (e: unknown) {
+        setError(e);
+      }
+    };
+    fetchFavorites();
+  }, []);
 
+  useEffect(() => {
+    const reports = cache.getAll();
+    console.log(reports.map((report) => report.id));
+    console.log(favorites.map((favorite) => favorite));
+    const filtered = reports.filter((report) =>
+      favorites.some((favorite) => favorite.report_id === report.id)
+    );
+    console.log({filtered})
+    setWatchlist(filtered);
+  }, [favorites]);
+
+  return {
+    keyExtractor,
+    renderItem,
+    watchlist,
+    getItemLayout,
+    renderFooter,
+    renderSeparator,
+    error,
+  };
+};

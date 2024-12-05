@@ -4,15 +4,16 @@ import React, { memo } from 'react';
 import { Pressable, View, Text, I18nManager } from 'react-native';
 
 import ImageSlider from './ImageSlider';
+import useReportListItem from '../hooks/useReportListItem';
 
 import { SCREENS } from '~/consts/screens';
 import { ListItem } from '~/screens/ReportsScreen/reports';
 import { formatDate } from '~/utils/time';
 
 const ReportListItem = memo(
-  ({ item, index, onPressHeart, isFavorite = false }: ListItem) => {
+  ({ item, index }: ListItem) => {
     const { id, name: title, created_at: date, viewCount, pics } = item;
-
+    const { isFavorite, toggleFavorite } = useReportListItem(id);
     React.useEffect(() => {
       I18nManager.forceRTL(true);
       I18nManager.allowRTL(true);
@@ -38,10 +39,7 @@ const ReportListItem = memo(
           }}>
           <View className="flex-row justify-end gap-4">
             <Pressable
-              onPress={(e) => {
-                e.stopPropagation();
-                onPressHeart(id);
-              }}
+              onPress={toggleFavorite}
               className="rounded-full bg-gray-50 p-3"
               hitSlop={8}
               style={{

@@ -3,8 +3,8 @@ export const SCREENS = {
   ICON_SIZE: 24,
   ICON_SIZE_LARGE: 32,
   SCREEN_NAMES: {
-    FLOWERING_REPORTS: 'Movies',
-    WATCHLIST: 'Watchlist',
+    FLOWERING_REPORTS: 'דיווחי פריחה',
+    WATCHLIST: 'דיווחים שאהבתי',
   },
   HEADER_PADDING: {
     IOS: 20,

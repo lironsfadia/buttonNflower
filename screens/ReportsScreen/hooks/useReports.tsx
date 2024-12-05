@@ -29,13 +29,12 @@ const useReports = () => {
   const [country, setCountry] = useState<string | null>(null);
   const [language, setLanguage] = useState<string | null>(null);
   const [isInitialized, setIsInitialized] = useState(false);
-  const [favoriteUpdate, setFavoriteUpdate] = useState(0);
 
   const { session, user } = useAuth();
 
   const cache = useMemo(() => DataCache.getInstance(), []);
 
-  const { keyExtractor, getItemLayout, renderFooter, renderSeparator } = useListConfig();
+  const { keyExtractor, getItemLayout, renderFooter, renderSeparator } = useListConfig(hasNextPage);
 
   const fetchReports = async (pageNumber: number) => {
     try {
@@ -125,18 +124,6 @@ const useReports = () => {
     }
   }
 
-  const handleHeartPress = useCallback(
-    (report: FloweringReport) => {
-      if (!cache.getWhitelistItem(report.id)) {
-        cache.setWhitelistItem(report);
-      } else {
-        cache.removeWhitelistItem(report.id);
-      }
-      setFavoriteUpdate((prev) => prev - 1);
-    },
-    [reports]
-  );
-
   const fetchNextPage = useCallback(async () => {
     if (loading || !hasNextPage || !isInitialized) return;
 
@@ -211,14 +198,9 @@ const useReports = () => {
 
   const renderItem = useCallback(
     ({ item, index }: { item: FloweringReport; index: number }) => (
-      <ReportListItem
-        item={item}
-        index={index}
-        onPressHeart={() => handleHeartPress(item)}
-        isFavorite={cache.getWhitelistItem(item.id) !== null}
-      />
+      <ReportListItem item={item} index={index} />
     ),
-    [cache, isFocused, favoriteUpdate]
+    [cache, isFocused]
   );
 
   return {

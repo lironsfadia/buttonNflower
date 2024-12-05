@@ -19,11 +19,14 @@ interface FloweringReport {
   pics: string[];
 }
 
+interface FavoriteFloweringReport {
+  report_id: number;
+  created_at: string;
+}
+
 interface ListItem {
   item: FloweringReport;
   index: number;
-  onPressHeart: (id: number) => void;
-  isFavorite: boolean;
 }
 
-export { ListItem, FloweringReport, Coordinates };
+export { ListItem, FloweringReport, Coordinates, FavoriteFloweringReport };
