@@ -11,6 +11,7 @@ export const useWatchlistReports = () => {
   const { keyExtractor, getItemLayout, renderFooter, renderSeparator } = useListConfig();
   const [favorites, setFavorites] = useState<FavoriteFloweringReport[]>([]);
   const [error, setError] = useState<unknown | null>(null);
+  const isFocused = useIsFocused();
 
   const cache = useMemo(() => DataCache.getInstance(), []);
   const [watchlist, setWatchlist] = useState<FloweringReport[]>([]);
@@ -35,7 +36,7 @@ export const useWatchlistReports = () => {
       }
     };
     fetchFavorites();
-  }, []);
+  }, [isFocused]);
 
   useEffect(() => {
     const reports = cache.getAll();
@@ -44,7 +45,6 @@ export const useWatchlistReports = () => {
     const filtered = reports.filter((report) =>
       favorites.some((favorite) => favorite.report_id === report.id)
     );
-    console.log({filtered})
     setWatchlist(filtered);
   }, [favorites]);
 
