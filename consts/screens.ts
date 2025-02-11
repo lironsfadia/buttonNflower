@@ -57,3 +57,15 @@ export const SCREENS = {
     },
   },
 } as const;
+export const BUTTONS = {  
+  COLORS: {
+    PRIMARY: '#b58df1',
+    SECONDARY: '#82cab2',
+    FLOATING: '#82cab2',
+  },
+  SIZE: 56,
+  OFFSET: 60,
+  SPRING_CONFIG: {
+    dampingRatio: 0.8,
+  },
+} as const;

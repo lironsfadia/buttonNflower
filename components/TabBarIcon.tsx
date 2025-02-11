@@ -1,11 +1,10 @@
 import { TABS } from 'consts/tabs';
-import { Code, Film, Flower, Home, Search, Settings, Star } from 'lucide-react-native';
+import { Code, Flower, Star } from 'lucide-react-native';
 import { useMemo } from 'react';
 
 import { TabBarIconProps, TabIcons } from './types';
 
 const icons: TabIcons = {
-  film: Film,
   star: Star,
   flower: Flower,
   code: Code,

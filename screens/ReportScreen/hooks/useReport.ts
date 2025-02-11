@@ -40,7 +40,6 @@ function useReport(): EventOutput {
     const fetchReporter = async () => {
       try {
         setLoading(true);
-        console.log('ttt data1');
 
         const { data, error } = await supabase
           .from('reports')
@@ -48,9 +47,7 @@ function useReport(): EventOutput {
           .eq('id', id)
           .single();
 
-          console.log('ttt data', data);
 
-        console.log('ttt data', data);
         setReporter(data.profiles);
         setLoading(false);
       } catch (e: unknown) {

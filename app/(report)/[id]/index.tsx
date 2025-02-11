@@ -1,6 +1,7 @@
 import Feather from '@expo/vector-icons/Feather';
 import { Link, Stack } from 'expo-router';
 import { View, Text, Pressable, ActivityIndicator, I18nManager } from 'react-native';
+import { typography, fontSize } from '~/consts/theme';
 
 import useReport from '~/screens/ReportScreen/hooks/useReport';
 import ImageSlider from '~/screens/ReportsScreen/components/ImageSlider';
@@ -23,7 +24,11 @@ function ReportScreen() {
   if (!report) {
     return (
       <View className="flex-1 items-center justify-center">
-        <Text className="text-lg font-bold">Report not found</Text>
+        <Text
+          className="text-lg font-bold"
+          style={{ fontFamily: typography.bold, fontSize: fontSize.lg }}>
+          Report not found
+        </Text>
       </View>
     );
   }
@@ -41,29 +46,52 @@ function ReportScreen() {
         <View className="flex-row gap-0 px-4">
           <View className="flex-1 items-start">
             {/* <Image className="aspect-video w-full" source={{ uri: image_uri }} /> */}
-            <Text className="mt-1 text-xl font-bold" numberOfLines={2}>
+            <Text
+              className="mt-1"
+              style={{ fontFamily: typography.bold, fontSize: fontSize.xxl }}
+              numberOfLines={2}>
               {name}
             </Text>
 
             <Link href={`/(user)/${userId}`} className="mt-1 text-lg font-extrabold text-green-600">
-              <Text className="text-lg font-semibold uppercase">{username}</Text>
+              <Text
+                className="uppercase"
+                style={{ fontFamily: typography.bold, fontSize: fontSize.md }}>
+                {username}
+              </Text>
             </Link>
-            <Text className="text-lg font-semibold uppercase text-amber-700">{time}</Text>
-            <Text className="text-md text-right">{content}</Text>
+            <Text
+              className="uppercase text-amber-700"
+              style={{ fontFamily: typography.regular, fontSize: fontSize.md }}>
+              {time}
+            </Text>
+            <Text
+              className="text-right"
+              style={{ fontFamily: typography.regular, fontSize: fontSize.md }}>
+              {content}
+            </Text>
           </View>
 
           <View className="flex-3 flex-row gap-1">
-            <Feather name="heart" size={20} color="grey" />
-            <Text className="text-lg font-semibold uppercase">{likeCount}</Text>
+            <Feather name="heart" size={20} color="red" />
+            <Text
+              className="uppercase"
+              style={{ fontFamily: typography.bold, fontSize: fontSize.md }}>
+              {likeCount}
+            </Text>
           </View>
         </View>
 
         <View className="flex-2 items-start px-4">
-          <Text className="text-right text-2xl font-bold">הפרחים שנצפו:</Text>
+          <Text
+            className="text-right"
+            style={{ fontFamily: typography.bold, fontSize: fontSize.lg }}>
+            הפרחים שנצפו:
+          </Text>
           {plants?.map(({ id, name }) => (
             <View className="flex-row items-center justify-between" key={id}>
               <Link href={`/(plant)/${id}`} className="mt-1 text-lg  font-extrabold text-green-600">
-                <Text className="text-lg font-bold">{name}</Text>
+                <Text style={{ fontFamily: typography.bold, fontSize: fontSize.md }}>{name}</Text>
               </Link>
             </View>
           ))}
@@ -74,7 +102,11 @@ function ReportScreen() {
         <Text className="p-3 text-xl font-semibold">Free</Text>
         {true ? (
           <>
-            <Text className="font-bold text-green-600">You Are Attending!</Text>
+            <Text
+              className="text-green-600"
+              style={{ fontFamily: typography.bold, fontSize: fontSize.md }}>
+              You Are Attending!
+            </Text>
             {/* <Link
               href={`/(report)/${id}/attendance`}
               className="mt-1 text-lg  font-extrabold text-green-600">
@@ -83,7 +115,11 @@ function ReportScreen() {
           </>
         ) : (
           <Pressable onPress={onLike} className="rounded-md bg-red-400 p-5">
-            <Text className="font-bold text-white">Join and RSVP</Text>
+            <Text
+              className="text-white"
+              style={{ fontFamily: typography.bold, fontSize: fontSize.md }}>
+              Join and RSVP
+            </Text>
           </Pressable>
         )}
       </View>

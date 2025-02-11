@@ -10,7 +10,9 @@ import {
   StyleSheet,
 } from 'react-native';
 
+import FloatingButton from '~/components/FloatingButton/FloatingButton';
 import { SCREENS } from '~/consts/screens';
+import { fontSize, typography } from '~/consts/theme';
 import useReports from '~/screens/ReportsScreen/hooks/useReports';
 
 // by default, show all reports by radius/country sorted by date.
@@ -66,6 +68,7 @@ export default function Reports() {
     renderSeparator,
     getItemLayout,
   } = useReports();
+
   // Force RTL for the entire app
   I18nManager.forceRTL(true);
   I18nManager.allowRTL(true);
@@ -73,7 +76,11 @@ export default function Reports() {
   if (error) {
     return (
       <View className="flex-1 justify-center align-middle">
-        <Text className="text-lg font-bold text-red-400">{error.message}</Text>
+        <Text
+          className="text-red-400"
+          style={{ fontFamily: typography.bold, fontSize: fontSize.lg }}>
+          {error.message}
+        </Text>
       </View>
     );
   }
@@ -87,16 +94,17 @@ export default function Reports() {
   }
 
   return (
-    <SafeAreaView className="flex-1 p-2">
-      <View className="ios:p-6 android:p-4 mb-6 flex-row justify-start gap-2 border-b border-b-gray-200 bg-white">
+    <SafeAreaView className="flex-1">
+      <View className="ios:pt-4 android:pt-4 flex-row justify-start gap-2 border-b border-b-gray-200">
         <Flower size={SCREENS.ICON_SIZE_LARGE} color="green" />
-        <Text className="ml-2 text-2xl font-bold color-green-600">
+        <Text
+          className="ml-2 color-green-600"
+          style={{ fontFamily: typography.bold, fontSize: fontSize.lg }}>
           {SCREENS.SCREEN_NAMES.FLOWERING_REPORTS}
         </Text>
       </View>
-
       <FlatList
-        className="flex-1 bg-white"
+        className="flex-1"
         data={reports}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
@@ -107,6 +115,9 @@ export default function Reports() {
         ItemSeparatorComponent={renderSeparator}
         getItemLayout={getItemLayout}
       />
+      <View style={styles.floatingButton}>
+        <FloatingButton />
+      </View>
     </SafeAreaView>
   );
 }
@@ -115,5 +126,10 @@ const styles = StyleSheet.create({
   listContainer: {
     padding: SCREENS.STYLES.PADDING,
     gap: SCREENS.STYLES.GAP,
+  },
+  floatingButton: {
+    position: 'absolute',
+    bottom: 20,
+    left: 20,
   },
 });

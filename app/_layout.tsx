@@ -1,24 +1,27 @@
 import '../global.css';
 
-import { ErrorBoundary, SplashScreen, Stack } from 'expo-router';
+import { useFonts, Heebo_400Regular, Heebo_700Bold } from '@expo-google-fonts/heebo';
+
+import { ErrorBoundary, Stack } from 'expo-router';
 import { useState, useEffect } from 'react';
 import { useColorScheme, View } from 'react-native';
 
 import AuthProvider from '~/contexts/authProvider';
+import SplashScreen from '~/screens/SplashScreen/SplashScreen';
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
   initialRouteName: '(tabs)',
 };
 
-// Prevent splash screen from auto-hiding
-SplashScreen.preventAutoHideAsync();
-
 export default function RootLayout() {
   const colorScheme = useColorScheme();
-  // const [loaded] = useFonts({
-  //   SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  // });
+
+  const [fontsLoaded] = useFonts({
+    Heebo_400Regular,
+    Heebo_700Bold,
+  });
+
   const [appIsReady, setAppIsReady] = useState(false);
 
   useEffect(() => {
@@ -37,18 +40,26 @@ export default function RootLayout() {
     prepare();
   }, []);
 
-  // Hide splash screen once app is ready
-  useEffect(() => {
-    if (appIsReady) {
-      console.log('App is ready, hiding splash screen');
-      SplashScreen.hideAsync();
-    }
-  }, [appIsReady]);
+  if (!appIsReady || !fontsLoaded) {
+    return (
+      <View className="flex-1 justify-center align-middle">
+        <SplashScreen />
+      </View>
+    );
+  }
 
   return (
     // protected paths.
     <AuthProvider>
-      <Stack>
+      <Stack
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: colorScheme === 'dark' ? '#000' : '#fff',
+          },
+          headerTitleStyle: {
+            fontFamily: 'Heebo_700Bold',
+          },
+        }}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: 'modal' }} />

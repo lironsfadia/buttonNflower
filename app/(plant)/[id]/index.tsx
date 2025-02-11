@@ -1,6 +1,7 @@
 import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
+import { typography, fontSize } from '~/consts/theme';
 
 import { Plant } from '~/screens/PlantsScreen/types';
 import { supabase } from '~/utils/supabase';
@@ -30,8 +31,10 @@ const PlantScreen = () => {
 
   return (
     <View>
-      <Text>Plant Screen {id}</Text>
-      <Text>{JSON.stringify(plant)}</Text>
+      <Text style={{ fontFamily: typography.bold, fontSize: fontSize.md }}>Plant Screen {id}</Text>
+      <Text style={{ fontFamily: typography.bold, fontSize: fontSize.md }}>
+        {JSON.stringify(plant)}
+      </Text>
     </View>
   );
 };

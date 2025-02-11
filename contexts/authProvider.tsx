@@ -1,9 +1,9 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { Session } from '@supabase/supabase-js';
+import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 import { ActivityIndicator } from 'react-native';
-import { Session, User } from '@supabase/supabase-js';
 
+import { AuthContextType } from '~/screens/LoginScreen/auth';
 import { supabase } from '~/utils/supabase';
-import { AuthContextType } from '~/types/auth';
 
 const AuthContext = createContext<AuthContextType>({
   session: null,
@@ -11,7 +11,7 @@ const AuthContext = createContext<AuthContextType>({
   isAuth: false,
 });
 
-export default function AuthProvider({ children }) {
+export default function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
 
