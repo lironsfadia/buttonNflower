@@ -1,7 +1,7 @@
 import { Stack } from 'expo-router';
 import React from 'react';
 import { View, TextInput, Pressable, Text } from 'react-native';
-import { typography, fontSize } from '~/consts/theme';
+import { typography, fontSize, textStyles } from '~/consts/theme';
 
 import useLogin from '~/screens/LoginScreen/hooks/useLogin';
 
@@ -10,7 +10,7 @@ function Login() {
     useLogin();
 
   return (
-    <View className="mt-10 flex-1 gap-3 bg-white p-4 pt-10">
+    <View className="mt-10 flex-1 gap-3 bg-white p-5 pt-10">
       <Stack.Screen
         options={{ title: 'Sign in', headerBackTitleVisible: false, headerTintColor: 'black' }}
       />
@@ -19,7 +19,7 @@ function Login() {
         value={email}
         placeholder="email@gmail.com"
         autoCapitalize="none"
-        className="rounded-md border-2 border-gray-300 p-3"
+        className={textStyles}
       />
       <TextInput
         onChangeText={(text) => setPassword(text)}
@@ -27,7 +27,7 @@ function Login() {
         secureTextEntry
         placeholder="Password"
         autoCapitalize="none"
-        className="rounded-md border-2 border-gray-300 p-3"
+        className={textStyles}
       />
       <View className="flex-row justify-center gap-3">
         <Pressable

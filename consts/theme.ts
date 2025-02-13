@@ -3,6 +3,8 @@ export const typography = {
   bold: 'Heebo_700Bold',
 };
 
+export const textStyles = 'rounded-md border-2 border-gray-300 p-3 text-right';
+
 export const fontSize = {
   xs: 12,
   sm: 14,

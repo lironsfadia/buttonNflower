@@ -1,6 +1,7 @@
 import Feather from '@expo/vector-icons/Feather';
 import { Link, Stack } from 'expo-router';
 import { View, Text, Pressable, ActivityIndicator, I18nManager } from 'react-native';
+import { STACK } from '~/consts/stack';
 import { typography, fontSize } from '~/consts/theme';
 
 import useReport from '~/screens/ReportScreen/hooks/useReport';
@@ -8,14 +9,13 @@ import ImageSlider from '~/screens/ReportsScreen/components/ImageSlider';
 
 function ReportScreen() {
   const { report, onLike, loading, time, plants, reporter } = useReport();
-  console.log({ reporter });
   const { username } = reporter ?? '';
 
   // Force RTL for the entire app
   I18nManager.forceRTL(true);
   I18nManager.allowRTL(true);
 
-  const { id, name, created_at, content, pics, plantIds, userId, likeCount } = report || {};
+  const { name, content, pics, userId, likeCount } = report || {};
 
   if (loading) {
     return <ActivityIndicator />;
@@ -35,19 +35,23 @@ function ReportScreen() {
 
   return (
     <>
-      <View className="flex-col gap-7">
+      <View className="flex-1 flex-col gap-7 bg-white p-5">
         <Stack.Screen
-          options={{ title: 'Report', headerBackTitleVisible: false, headerTintColor: 'black' }}
+          options={{
+            title: 'Report',
+            headerBackTitleVisible: false,
+            headerTintColor: STACK.HEADER_TINT_COLOR,
+          }}
         />
         <View className="flex-3 px-2">
           <ImageSlider images={pics} />
         </View>
 
         <View className="flex-row gap-0 px-4">
-          <View className="flex-1 items-start">
+          <View className="w-full flex-1 items-start">
             {/* <Image className="aspect-video w-full" source={{ uri: image_uri }} /> */}
             <Text
-              className="mt-1"
+              className="mt-1 text-right"
               style={{ fontFamily: typography.bold, fontSize: fontSize.xxl }}
               numberOfLines={2}>
               {name}
@@ -55,19 +59,23 @@ function ReportScreen() {
 
             <Link href={`/(user)/${userId}`} className="mt-1 text-lg font-extrabold text-green-600">
               <Text
-                className="uppercase"
+                className="text-right uppercase"
                 style={{ fontFamily: typography.bold, fontSize: fontSize.md }}>
                 {username}
               </Text>
             </Link>
             <Text
-              className="uppercase text-amber-700"
+              className="text-right uppercase text-amber-700"
               style={{ fontFamily: typography.regular, fontSize: fontSize.md }}>
               {time}
             </Text>
             <Text
-              className="text-right"
-              style={{ fontFamily: typography.regular, fontSize: fontSize.md }}>
+              className="w-full text-left"
+              style={{
+                fontFamily: typography.regular,
+                fontSize: fontSize.md,
+                writingDirection: 'rtl',
+              }}>
               {content}
             </Text>
           </View>
@@ -75,7 +83,7 @@ function ReportScreen() {
           <View className="flex-3 flex-row gap-1">
             <Feather name="heart" size={20} color="red" />
             <Text
-              className="uppercase"
+              className="text-right uppercase"
               style={{ fontFamily: typography.bold, fontSize: fontSize.md }}>
               {likeCount}
             </Text>
@@ -91,7 +99,11 @@ function ReportScreen() {
           {plants?.map(({ id, name }) => (
             <View className="flex-row items-center justify-between" key={id}>
               <Link href={`/(plant)/${id}`} className="mt-1 text-lg  font-extrabold text-green-600">
-                <Text style={{ fontFamily: typography.bold, fontSize: fontSize.md }}>{name}</Text>
+                <Text
+                  style={{ fontFamily: typography.bold, fontSize: fontSize.md }}
+                  className="text-right">
+                  {name}
+                </Text>
               </Link>
             </View>
           ))}
@@ -103,7 +115,7 @@ function ReportScreen() {
         {true ? (
           <>
             <Text
-              className="text-green-600"
+              className="text-right text-green-600"
               style={{ fontFamily: typography.bold, fontSize: fontSize.md }}>
               You Are Attending!
             </Text>

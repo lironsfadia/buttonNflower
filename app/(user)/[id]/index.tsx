@@ -1,6 +1,8 @@
 import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
+
+import { User } from '~/types/db';
 import { supabase } from '~/utils/supabase';
 
 const UserScreen = () => {
@@ -13,9 +15,9 @@ const UserScreen = () => {
     const fetchUser = async () => {
       try {
         setLoading(true);
-        let { data, error } = await supabase.from('profiles').select('*').eq('id', id);
+        const { data, error } = await supabase.from('profiles').select('*').eq('id', id);
 
-        setUser(data);
+        setUser(data ? data[0] : null);
         setLoading(false);
       } catch (e: unknown) {
         setError(e);

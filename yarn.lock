@@ -1562,6 +1562,11 @@
     prompts "^2.4.2"
     semver "^7.5.2"
 
+"@react-native-picker/picker@2.7.5":
+  version "2.7.5"
+  resolved "https://registry.yarnpkg.com/@react-native-picker/picker/-/picker-2.7.5.tgz#e43fcd65f260fa4f23e974ccb9fb7c1f7a9ff94a"
+  integrity sha512-vhMaOLkXSUb+YKVbukMJToU4g+89VMhBG2U9+cLYF8X8HtFRidrHjohGqT8/OyesDuKIXeLIP+UFYI9Q9CRA9Q==
+
 "@react-native/assets-registry@0.74.87":
   version "0.74.87"
   resolved "https://registry.npmjs.org/@react-native/assets-registry/-/assets-registry-0.74.87.tgz"
@@ -6993,6 +6998,11 @@ react-native-css-interop@0.1.9:
     "@babel/types" "^7.23.0"
     lightningcss "1.22.0"
     semver "^7.6.3"
+
+react-native-date-picker@^5.0.10:
+  version "5.0.10"
+  resolved "https://registry.yarnpkg.com/react-native-date-picker/-/react-native-date-picker-5.0.10.tgz#e3ff98dcdca5f88035cee9c133bd0be56e4dada9"
+  integrity sha512-W4AXcoFXXNFhG2fItRWp5UrgiU6PJM7bW06KDl+NeWPActSzunMQkQWjMuucOsrlyfCudTyV1n3hskHRGzDeow==
 
 react-native-fast-image@^8.6.3:
   version "8.6.3"

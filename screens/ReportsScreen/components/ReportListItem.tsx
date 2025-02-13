@@ -9,6 +9,7 @@ import useReportListItem from '../hooks/useReportListItem';
 import { SCREENS } from '~/consts/screens';
 import { ListItem } from '~/screens/ReportsScreen/reports';
 import { formatDate } from '~/utils/time';
+import { typography, fontSize } from '~/consts/theme';
 
 const ReportListItem = memo(
   ({ item, index }: ListItem) => {
@@ -37,7 +38,45 @@ const ReportListItem = memo(
             shadowRadius: 8,
             elevation: 5,
           }}>
-          <View className="flex-row justify-end gap-4">
+          <View className="flex-row justify-end gap-2">
+            {/* Index number */}
+            <View className="ml-2 h-8 w-8 items-center justify-center rounded-full bg-gray-100">
+              <Text
+                className="text-left text-base text-gray-600"
+                style={{ fontFamily: typography.bold, fontSize: fontSize.lg }}>
+                #{index + 1}
+              </Text>
+            </View>
+
+            {/* Content */}
+            <View className="flex-1">
+              <Text
+                className="mb-2 text-left text-gray-900"
+                numberOfLines={2}
+                style={{ fontFamily: typography.bold, fontSize: fontSize.lg }}>
+                {title}
+              </Text>
+              <Text
+                className="text-left text-base text-gray-600"
+                style={{ fontFamily: typography.regular, fontSize: fontSize.md }}>
+                {viewCount || 0} views
+              </Text>
+              <Text
+                className="text-left text-amber-700"
+                style={{ fontFamily: typography.regular, fontSize: fontSize.sm }}>
+                {time}
+              </Text>
+            </View>
+
+            {/* Action buttons */}
+            <View className="flex-row items-end justify-end gap-3">
+              <Share size={20} color="grey" />
+              <Save size={20} color="grey" />
+            </View>
+            {/* Image slider */}
+            <View className="h-28 w-20 overflow-hidden rounded-lg">
+              <ImageSlider images={pics} />
+            </View>
             <Pressable
               onPress={toggleFavorite}
               className="rounded-full bg-gray-50 p-3"
@@ -61,31 +100,6 @@ const ReportListItem = memo(
                 fill={isFavorite ? '#ef4444' : 'none'}
               />
             </Pressable>
-
-            {/* Content */}
-            <View className="flex-1">
-              <Text className="mb-2 text-right text-lg font-bold text-gray-900" numberOfLines={2}>
-                {title}
-              </Text>
-              <Text className="text-right text-base text-gray-600">{viewCount || 0} views</Text>
-              <Text className="text-right text-sm text-amber-700">{time}</Text>
-            </View>
-
-            {/* Image slider */}
-            <View className="h-28 w-20 overflow-hidden rounded-lg">
-              <ImageSlider images={pics} />
-            </View>
-
-            {/* Index number */}
-            <View className="ml-2 h-8 w-8 items-center justify-center rounded-full bg-gray-100">
-              <Text className="text-base font-bold text-gray-600">#{index + 1}</Text>
-            </View>
-          </View>
-
-          {/* Action buttons */}
-          <View className="mt-3 flex-row justify-end gap-3">
-            <Share size={20} color="grey" />
-            <Save size={20} color="grey" />
           </View>
         </Pressable>
       </Link>

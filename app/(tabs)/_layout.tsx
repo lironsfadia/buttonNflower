@@ -7,6 +7,7 @@ import { TabBarIcon } from '../../components/TabBarIcon';
 import { TABS } from '~/consts/tabs';
 import { useAuth } from '~/contexts/authProvider';
 import { supabase } from '~/utils/supabase';
+import { SCREENS } from '~/consts/screens';
 
 export default function TabLayout() {
   const { isAuth } = useAuth();
@@ -29,12 +30,13 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
+          tabBarLabel: SCREENS.SCREEN_NAMES.FLOWERING_REPORTS,
           title: TABS.TAB_NAMES.SEARCH,
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name="flower" color={color} focused={focused} />
           ),
           headerRight: () => (
-            <Link href="/modal" asChild>
+            <Link href="/profile" asChild>
               <HeaderButton />
             </Link>
           ),
@@ -46,15 +48,6 @@ export default function TabLayout() {
           title: TABS.TAB_NAMES.FAVORITES,
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name="star" color={color} focused={focused} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="profile"
-        options={{
-          title: 'פרופיל',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name="code" color={color} focused={focused} />
           ),
         }}
       />

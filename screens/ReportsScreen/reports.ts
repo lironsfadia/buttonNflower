@@ -3,6 +3,7 @@ interface Coordinates {
   lng: number;
 }
 
+type Status = 'מאושר' | 'ממתין לאישור' | 'נדחה';
 interface FloweringReport {
   id: number;
   name: string;
@@ -12,7 +13,7 @@ interface FloweringReport {
   created_at: string;
   viewCount: number;
   likeCount: number;
-  status: 'מאושר' | 'ממתין לאישור' | 'נדחה';
+  status: Status;
   longitude: number;
   latitude: number;
   itemsCount: number;
@@ -29,4 +30,4 @@ interface ListItem {
   index: number;
 }
 
-export { ListItem, FloweringReport, Coordinates, FavoriteFloweringReport };
+export { ListItem, FloweringReport, Coordinates, FavoriteFloweringReport, Status };

@@ -1,5 +1,7 @@
+import { useIsFocused } from '@react-navigation/native';
+import { useFocusEffect } from 'expo-router';
 import { Flower, Bird, Trash } from 'lucide-react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, StyleSheet, Pressable, I18nManager } from 'react-native';
 import Animated, {
   interpolate,
@@ -34,6 +36,7 @@ const buttons = [
 ];
 
 const FloatingButton = () => {
+  const isFocused = useIsFocused();
   const buttonWidth = useSharedValue(56);
 
   const isExpanded = useSharedValue(false);
@@ -43,6 +46,14 @@ const FloatingButton = () => {
   const [textBtn, setTextBtn] = React.useState<{ text: string }>({
     text: '+',
   });
+
+  useEffect(() => {
+    if (!isFocused) {
+      isExpanded.value = false;
+      buttonWidth.value = 56;
+      setTextBtn({ text: '+' });
+    }
+  }, [isFocused]);
 
   // Create animated style for the button
   const animatedStyle = useAnimatedStyle(() => {

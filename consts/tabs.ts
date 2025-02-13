@@ -12,7 +12,7 @@ export const TABS = {
   },
 
   TAB_NAMES: {
-    SEARCH: 'search',
+    SEARCH: "Button N' Flower",
     FAVORITES: 'favorites',
   },
 } as const;

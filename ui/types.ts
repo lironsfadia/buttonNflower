@@ -6,4 +6,11 @@ interface ImageProps {
   priority?: Priority;
 }
 
-export { ImageProps };
+interface CustomDropdownProps {
+  data: any[];
+  defaultValue: string;
+  onSelect: (id: number) => void;
+  textStyles: string;
+}
+
+export { ImageProps, CustomDropdownProps };

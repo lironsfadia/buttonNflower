@@ -94,15 +94,15 @@ export default function Reports() {
   }
 
   return (
-    <SafeAreaView className="flex-1">
-      <View className="ios:pt-4 android:pt-4 flex-row justify-start gap-2 border-b border-b-gray-200">
+    <SafeAreaView className="flex-1 bg-white p-5">
+      {/* <View className="ios:pt-4 android:pt-4 flex-row justify-start gap-2 border-b border-b-gray-200">
         <Flower size={SCREENS.ICON_SIZE_LARGE} color="green" />
         <Text
           className="ml-2 color-green-600"
           style={{ fontFamily: typography.bold, fontSize: fontSize.lg }}>
           {SCREENS.SCREEN_NAMES.FLOWERING_REPORTS}
         </Text>
-      </View>
+      </View> */}
       <FlatList
         className="flex-1"
         data={reports}

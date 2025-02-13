@@ -1,6 +1,7 @@
 import { useIsFocused } from '@react-navigation/native';
 import { useLocalSearchParams } from 'expo-router';
 import { useState, useEffect } from 'react';
+import { Report } from '~/types/db'
 
 import { useAuth } from '~/contexts/authProvider';
 import { Plant } from '~/screens/PlantsScreen/plants';
@@ -22,19 +23,16 @@ function useReport(): EventOutput {
   const { id } = useLocalSearchParams();
   const { user } = useAuth();
   const [plants, setPlants] = useState<any | null>(null);
-  const [report, setReport] = useState<any | null>(null);
+  const [report, setReport] = useState<Report | null>(null);
   const [reporter, setReporter] = useState<User | null>(null);
   const [error, setError] = useState<unknown | null>(null);
   const [loading, setLoading] = useState(true);
 
-  console.log('ttt useReport', id);
 
   useEffect(() => {
-    console.log('ttt inside useEffect', { id, typeOfId: typeof id });
 
     // Ensure id exists
     if (!id) {
-      console.log('ttt no id provided');
       return;
     }
     const fetchReporter = async () => {
@@ -60,7 +58,7 @@ function useReport(): EventOutput {
         const { data, error } = await supabase
           .from('flower_report_plants')
           .select('*, plants(*)')
-          .eq('reportId', id);
+          .eq('report_id', id);
 
         setPlants(data?.map((d) => d.plants));
         setLoading(false);
@@ -73,13 +71,16 @@ function useReport(): EventOutput {
       try {
         setLoading(true);
         const { data, error } = await supabase.from('reports').select('*').eq('id', id).single();
-        setReport(data);
+        if (!error) {
+          setReport(data);
+        } else {
+          setError(error);
+        }
         setLoading(false);
       } catch (e: unknown) {
         setError(e);
       }
     };
-    console.log('ttt fetch');
     fetchPlants();
     fetchReport();
     fetchReporter();

@@ -8,8 +8,6 @@ export default function Watchlist() {
   const { keyExtractor, renderItem, watchlist, getItemLayout, renderSeparator, error } =
     useWatchlistReports();
 
-    console.log('watchlist', watchlist);
-
   if (error) {
     return (
       <SafeAreaView className="flex-1 p-2">
@@ -19,7 +17,7 @@ export default function Watchlist() {
   }
 
   return (
-    <SafeAreaView className="flex-1 p-2">
+    <View className="flex-1 bg-white p-5">
       <View className="ios:p-6 android:p-4 mb-6 flex-row justify-start gap-2 border-b border-b-gray-200 bg-white">
         <Film size={SCREENS.ICON_SIZE_LARGE} color="red" />
         <Text className="ml-2 text-2xl font-bold color-red-600">
@@ -37,7 +35,7 @@ export default function Watchlist() {
         ItemSeparatorComponent={renderSeparator}
         getItemLayout={getItemLayout}
       />
-    </SafeAreaView>
+    </View>
   );
 }
 

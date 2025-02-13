@@ -1,15 +1,15 @@
 import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
-import { typography, fontSize } from '~/consts/theme';
 
-import { Plant } from '~/screens/PlantsScreen/types';
+import { typography, fontSize } from '~/consts/theme';
+import { Plant } from '~/types/db';
 import { supabase } from '~/utils/supabase';
 
 const PlantScreen = () => {
   //which reports it were recently
   const { id } = useLocalSearchParams();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
   const [plant, setPlant] = useState<Plant | null>(null);
   const [error, setError] = useState<unknown | null>(null);
 
@@ -30,7 +30,7 @@ const PlantScreen = () => {
   }, [id]);
 
   return (
-    <View>
+    <View className="flex-1 bg-white p-5">
       <Text style={{ fontFamily: typography.bold, fontSize: fontSize.md }}>Plant Screen {id}</Text>
       <Text style={{ fontFamily: typography.bold, fontSize: fontSize.md }}>
         {JSON.stringify(plant)}

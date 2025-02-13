@@ -50,7 +50,7 @@ const FloatingActionButton = ({ isExpanded, index, icon, label }) => {
 
   return (
     <AnimatedPressable style={[animatedStyles, styles.button, styles.shadow]}>
-      <Link href="/(report)/new">
+      <Link href="/(report)/create">
         <View style={styles.linkContainer}>
           <View style={styles.iconCircle}>{icon}</View>
           <Animated.Text style={[styles.label, { fontFamily: typography.regular }]}>

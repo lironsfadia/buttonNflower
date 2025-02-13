@@ -5,6 +5,8 @@ import { useFonts, Heebo_400Regular, Heebo_700Bold } from '@expo-google-fonts/he
 import { ErrorBoundary, Stack } from 'expo-router';
 import { useState, useEffect } from 'react';
 import { useColorScheme, View } from 'react-native';
+import { SCREENS } from '~/consts/screens';
+import { TABS } from '~/consts/tabs';
 
 import AuthProvider from '~/contexts/authProvider';
 import SplashScreen from '~/screens/SplashScreen/SplashScreen';
@@ -53,6 +55,8 @@ export default function RootLayout() {
     <AuthProvider>
       <Stack
         screenOptions={{
+          headerBackTitle: 'Back',
+          headerBackTitleVisible: false,
           headerStyle: {
             backgroundColor: colorScheme === 'dark' ? '#000' : '#fff',
           },
@@ -62,6 +66,7 @@ export default function RootLayout() {
         }}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+        <Stack.Screen name="profile" options={{ headerShown: true }} />
         <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
       </Stack>
     </AuthProvider>
