@@ -71,6 +71,7 @@ const useReports = () => {
         throw error;
       }
 
+      console.log('Profile data:', data.avatar_url);
       if (data) {
         setUsername(data.username);
         setWebsite(data.website);

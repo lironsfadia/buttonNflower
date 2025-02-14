@@ -11,6 +11,7 @@
     },
     "plugins": [
       "expo-router",
+      ["expo-image-picker", { "photoPermission": "Allow $(PRODUCT_NAME) to access your photos." }],
       "expo-localization",
       [
         "expo-location",
@@ -32,9 +33,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "flowerNbutton"
