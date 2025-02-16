@@ -3,6 +3,7 @@ import React from 'react';
 import { Text, View, I18nManager, TextInput, Pressable } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 
+import Avatar from '~/components/Avatar';
 import { STACK } from '~/consts/stack';
 import { typography, fontSize, textStyles } from '~/consts/theme';
 import useCreateReport from '~/screens/CreateReportScreen/useCreateReport';
@@ -24,6 +25,8 @@ function CreateReport() {
     date,
     setDate,
     createReport,
+    imageUrl,
+    setImageUrl,
   } = useCreateReport();
 
   // Force RTL for the entire app
@@ -42,6 +45,16 @@ function CreateReport() {
       <Text className="text-left" style={{ fontFamily: typography.bold, fontSize: fontSize.md }}>
         ספר מה ראית:
       </Text>
+      <View className="items-center">
+        <Avatar
+          size={200}
+          url={imageUrl}
+          onUpload={(url: string) => {
+            setImageUrl(url);
+          }}
+          bucketName="report_imgs"
+        />
+      </View>
       <TextInput className={textStyles} value={name} onChangeText={setName} placeholder="שם" />
       <TextInput
         className={`${textStyles} min-h-32`}
@@ -52,9 +65,7 @@ function CreateReport() {
         numberOfLines={3}
       />
 
-      <Text
-        className="rounded-md border-2 border-gray-300 p-3 text-left"
-        onPress={() => setOpen(true)}>
+      <Text className={textStyles} onPress={() => setOpen(true)}>
         {date.toLocaleString()}
       </Text>
       <DatePicker
@@ -72,7 +83,7 @@ function CreateReport() {
         }}
       />
       <TextInput
-        className="rounded-md border-2 border-gray-300 p-3 text-right"
+        className={textStyles}
         placeholder="כמות פריטים"
         value={itemsCount}
         onChangeText={setItemsCount}

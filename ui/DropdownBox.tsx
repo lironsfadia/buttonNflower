@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Modal, FlatList, StyleSheet } from 'react-native';
 
 import { CustomDropdownProps } from './types';
@@ -6,6 +6,13 @@ import { CustomDropdownProps } from './types';
 const CustomDropdown = ({ data, defaultValue, onSelect, textStyles }: CustomDropdownProps) => {
   const [visible, setVisible] = useState(false);
   const [selected, setSelected] = useState({ name: defaultValue, id: -1 });
+  const isFocused = visible ? 'focused' : '';
+
+  useEffect(() => {
+    if (!isFocused) {
+      setSelected({ name: defaultValue, id: -1 });
+    }
+  }, [isFocused]);
 
   const onItemPress = (item: { name: string; id: number }) => {
     setSelected(item);

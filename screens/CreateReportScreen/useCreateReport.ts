@@ -19,6 +19,7 @@ function useCreateReport() {
   const [date, setDate] = useState<Date>(new Date());
   const [loading, setLoading] = useState<boolean>(false);
   const [plants, setPlants] = useState<Partial<Plant>[]>([]);
+  const [imageUrl, setImageUrl] = useState<string>('');
 
   useEffect(() => {
     const fetchPlants = async () => {
@@ -36,6 +37,7 @@ function useCreateReport() {
   }, []);
 
   const createReport = async () => {
+    console.log('createReport', imageUrl);
     setLoading(true);
     const { data, error } = await supabase
       .from('reports')
@@ -50,6 +52,7 @@ function useCreateReport() {
           plant_ids: plantIds,
           seen_at: date.toISOString(),
           user_id: user?.id,
+          pics: [imageUrl],
         },
       ])
       .select()
@@ -73,6 +76,7 @@ function useCreateReport() {
       setContent('');
       setItemsCount('0');
       setPlantIds([]);
+      setImageUrl('');
       setDate(new Date());
 
       router.push(`/(report)/${data.id}`);
@@ -105,6 +109,8 @@ function useCreateReport() {
     plants,
     handleSelect,
     createReport,
+    setImageUrl,
+    imageUrl,
   };
 }
 

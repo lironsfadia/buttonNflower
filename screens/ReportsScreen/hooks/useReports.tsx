@@ -12,6 +12,7 @@ import { DataCache } from '~/data/DataCache';
 import { useListConfig } from '~/hooks/useListConfig';
 import { FloweringReport } from '~/screens/ReportsScreen/reports';
 import { supabase } from '~/utils/supabase';
+import { router } from 'expo-router';
 
 const useReports = () => {
   const isFocused = useIsFocused();
@@ -108,14 +109,20 @@ const useReports = () => {
         full_name,
         website,
         avatar_url,
-        updated_at: new Date(),
+        updated_at: new Date().toISOString(), // !!!
       };
 
-      const { error } = await supabase.from('profiles').upsert(updates);
+      const { error } = await supabase
+        .from('profiles')
+        .update(updates)
+        .eq('id', user?.id?.toString() || '')
+        .select();
 
       if (error) {
         throw error;
       }
+
+      router.back();
     } catch (error) {
       if (error instanceof Error) {
         Alert.alert(`Error!: ${error.message}`);

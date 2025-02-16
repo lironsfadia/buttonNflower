@@ -1,9 +1,10 @@
 import Feather from '@expo/vector-icons/Feather';
 import { Link, Stack } from 'expo-router';
 import { View, Text, Pressable, ActivityIndicator, I18nManager } from 'react-native';
+import Avatar from '~/components/Avatar';
+
 import { STACK } from '~/consts/stack';
 import { typography, fontSize } from '~/consts/theme';
-
 import useReport from '~/screens/ReportScreen/hooks/useReport';
 import ImageSlider from '~/screens/ReportsScreen/components/ImageSlider';
 
@@ -15,7 +16,7 @@ function ReportScreen() {
   I18nManager.forceRTL(true);
   I18nManager.allowRTL(true);
 
-  const { name, content, pics, userId, likeCount } = report || {};
+  const { name, content, userId, likeCount, pics } = report || {};
 
   if (loading) {
     return <ActivityIndicator />;
@@ -44,7 +45,7 @@ function ReportScreen() {
           }}
         />
         <View className="flex-3 px-2">
-          <ImageSlider images={pics} />
+          <Avatar size={200} url={pics[0] || ''} bucketName="report_imgs" onUpload={() => {}} />
         </View>
 
         <View className="flex-row gap-0 px-4">

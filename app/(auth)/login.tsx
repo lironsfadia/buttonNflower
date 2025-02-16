@@ -1,8 +1,8 @@
 import { Stack } from 'expo-router';
 import React from 'react';
 import { View, TextInput, Pressable, Text } from 'react-native';
-import { typography, fontSize, textStyles } from '~/consts/theme';
 
+import { typography, fontSize, textStyles } from '~/consts/theme';
 import useLogin from '~/screens/LoginScreen/hooks/useLogin';
 
 function Login() {

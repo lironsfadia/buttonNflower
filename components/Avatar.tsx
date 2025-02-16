@@ -1,26 +1,24 @@
+import { decode } from 'base64-arraybuffer';
 import * as FileSystem from 'expo-file-system';
 import * as ImagePicker from 'expo-image-picker';
 import mime from 'mime';
 import { useState, useEffect } from 'react';
 import { StyleSheet, View, Alert, Image, Button, ActivityIndicator } from 'react-native';
-import { decode } from 'base64-arraybuffer';
 
-import { useAuth } from '~/contexts/authProvider';
 import { supabase } from '~/utils/supabase';
 
 interface Props {
   size: number;
   url: string | null;
   onUpload: (filePath: string) => void;
+  bucketName: string;
 }
 
-export default function Avatar({ url, size = 150, onUpload }: Props) {
+export default function Avatar({ url, size = 150, onUpload, bucketName }: Props) {
   const [uploading, setUploading] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [filePath, setFilePath] = useState<string | null>(null);
   const avatarSize = { height: size, width: size };
-
-  const { user } = useAuth();
 
   useEffect(() => {
     if (url || filePath) {
@@ -29,8 +27,9 @@ export default function Avatar({ url, size = 150, onUpload }: Props) {
   }, [url, filePath]);
 
   async function downloadImage(path: string) {
+    console.log({ path });
     try {
-      const { data, error } = await supabase.storage.from('avatars').download(path);
+      const { data, error } = await supabase.storage.from(bucketName).download(path);
 
       if (error) {
         throw error;
@@ -91,7 +90,7 @@ export default function Avatar({ url, size = 150, onUpload }: Props) {
       });
 
       const { error: uploadError } = await supabase.storage
-        .from('avatars')
+        .from(bucketName)
         .upload(newFilePath, decode(arraybuffer), {
           contentType: mime.getType(image.uri) || 'image/jpeg',
         });
@@ -100,25 +99,11 @@ export default function Avatar({ url, size = 150, onUpload }: Props) {
         throw uploadError;
       }
 
-      const { publicURL, error: publicUrlError } = supabase.storage
-        .from('avatars')
-        .getPublicUrl(newFilePath);
+      const {
+        data: { publicUrl },
+      } = supabase.storage.from(bucketName).getPublicUrl(newFilePath);
 
-      if (publicUrlError) {
-        throw publicUrlError;
-      }
-
-      onUpload(publicURL); // Update this to pass the full URL
-
-      const { error } = await supabase
-        .from('profiles')
-        .update({ avatar_url: newFilePath })
-        .eq('id', user?.id?.toString() || '')
-        .select();
-
-      if (error) {
-        throw error;
-      }
+      onUpload(newFilePath); // Update this to pass the full URL
     } catch (error) {
       if (error instanceof Error) {
         Alert.alert(error.name, error.message);

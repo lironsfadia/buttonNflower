@@ -21,7 +21,7 @@ export default function Home() {
     updateProfile,
   } = useReports();
 
-  const { session, user } = useAuth();
+  const { session } = useAuth();
 
   return (
     <View className="flex-1 gap-3 bg-white p-5">
@@ -33,14 +33,16 @@ export default function Home() {
         }}
       />
 
-      <Avatar
-        size={200}
-        url={avatarUrl}
-        onUpload={(url: string) => {
-          setAvatarUrl(url);
-          updateProfile({ username, website, avatar_url: url });
-        }}
-      />
+      <View className="items-center">
+        <Avatar
+          size={200}
+          url={avatarUrl}
+          bucketName="avatars"
+          onUpload={(url: string) => {
+            setAvatarUrl(url);
+          }}
+        />
+      </View>
 
       <TextInput
         editable={false}
