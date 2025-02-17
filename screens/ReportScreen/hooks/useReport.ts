@@ -1,16 +1,14 @@
 import { useIsFocused } from '@react-navigation/native';
 import { useLocalSearchParams } from 'expo-router';
 import { useState, useEffect } from 'react';
-import { Report } from '~/types/db'
 
 import { useAuth } from '~/contexts/authProvider';
-import { Plant } from '~/screens/PlantsScreen/plants';
-import { FloweringReport } from '~/screens/ReportsScreen/reports';
+import { Plant, Report, User } from '~/types/db';
 import { supabase } from '~/utils/supabase';
 import { formatDate } from '~/utils/time';
 
 interface EventOutput {
-  report: FloweringReport | undefined;
+  report: Report | null;
   reporter: any | undefined;
   plants: Plant[] | null;
   onLike: () => void;
@@ -23,14 +21,12 @@ function useReport(): EventOutput {
   const { id } = useLocalSearchParams();
   const { user } = useAuth();
   const [plants, setPlants] = useState<any | null>(null);
-  const [report, setReport] = useState<Report | null>(null);
+  const [report, setReport] = useState<Report | undefined>(undefined);
   const [reporter, setReporter] = useState<User | null>(null);
   const [error, setError] = useState<unknown | null>(null);
   const [loading, setLoading] = useState(true);
 
-
   useEffect(() => {
-
     // Ensure id exists
     if (!id) {
       return;
@@ -44,7 +40,6 @@ function useReport(): EventOutput {
           .select('*, profiles(*)')
           .eq('id', id)
           .single();
-
 
         setReporter(data.profiles);
         setLoading(false);
@@ -86,8 +81,8 @@ function useReport(): EventOutput {
     fetchReporter();
   }, [id, isFocused]);
 
-  const { reportDate } = report || {};
-  const time = formatDate(reportDate);
+  const { created_at } = report || {};
+  const time = formatDate(created_at);
 
   const onLike = async () => {};
   // const onAttend = async () => {

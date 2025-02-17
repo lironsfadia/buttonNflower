@@ -10,7 +10,7 @@ import { supabase } from '~/utils/supabase';
 interface Props {
   size: number;
   url: string | null;
-  onUpload: (filePath: string) => void;
+  onUpload?: (filePath: string) => void;
   bucketName: string;
 }
 
@@ -125,7 +125,9 @@ export default function Avatar({ url, size = 150, onUpload, bucketName }: Props)
           style={[avatarSize, styles.avatar, styles.image]}
         />
       ) : (
-        <View style={[avatarSize, styles.avatar, styles.noImage]} />
+        <View style={[avatarSize, styles.avatar, styles.noImage]}>
+          <ActivityIndicator size="large" color="#0000ff" />
+        </View>
       )}
 
       <View>
@@ -151,10 +153,8 @@ const styles = StyleSheet.create({
     paddingTop: 0,
   },
   noImage: {
-    backgroundColor: '#333',
-    borderWidth: 1,
-    borderStyle: 'solid',
-    borderColor: 'rgb(200, 200, 200)',
-    borderRadius: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

@@ -1,7 +1,8 @@
 import Feather from '@expo/vector-icons/Feather';
 import { Link, Stack } from 'expo-router';
 import { View, Text, Pressable, ActivityIndicator, I18nManager } from 'react-native';
-import Avatar from '~/components/Avatar';
+import LikesComponent from '~/components/likesComponent';
+import SupaImage from '~/components/SupaImage';
 
 import { STACK } from '~/consts/stack';
 import { typography, fontSize } from '~/consts/theme';
@@ -12,11 +13,8 @@ function ReportScreen() {
   const { report, onLike, loading, time, plants, reporter } = useReport();
   const { username } = reporter ?? '';
 
-  // Force RTL for the entire app
-  I18nManager.forceRTL(true);
-  I18nManager.allowRTL(true);
-
-  const { name, content, userId, likeCount, pics } = report || {};
+  const { name, content, like_count, pics, user_id } = report || {};
+  console.log('report', report);
 
   if (loading) {
     return <ActivityIndicator />;
@@ -44,50 +42,57 @@ function ReportScreen() {
             headerTintColor: STACK.HEADER_TINT_COLOR,
           }}
         />
-        <View className="flex-3 px-2">
-          <Avatar size={200} url={pics[0] || ''} bucketName="report_imgs" onUpload={() => {}} />
-        </View>
 
-        <View className="flex-row gap-0 px-4">
-          <View className="w-full flex-1 items-start">
-            {/* <Image className="aspect-video w-full" source={{ uri: image_uri }} /> */}
-            <Text
-              className="mt-1 text-right"
-              style={{ fontFamily: typography.bold, fontSize: fontSize.xxl }}
-              numberOfLines={2}>
-              {name}
-            </Text>
+        <View className="flex-row px-4">
+          <View className="w-full flex-1 flex-col items-start gap-3">
+            <SupaImage
+              bucketName="report_imgs"
+              path={pics?.[0]}
+              className="aspect-video rounded-xl"
+            />
+            <View className="w-full flex-row justify-between">
+              <View className="flex-col gap-1">
+                <Text
+                  className="w-full text-left"
+                  style={{
+                    fontFamily: typography.bold,
+                    fontSize: fontSize.xxl,
+                    writingDirection: 'rtl',
+                  }}
+                  numberOfLines={2}>
+                  {name}
+                </Text>
 
-            <Link href={`/(user)/${userId}`} className="mt-1 text-lg font-extrabold text-green-600">
-              <Text
-                className="text-right uppercase"
-                style={{ fontFamily: typography.bold, fontSize: fontSize.md }}>
-                {username}
-              </Text>
-            </Link>
-            <Text
-              className="text-right uppercase text-amber-700"
-              style={{ fontFamily: typography.regular, fontSize: fontSize.md }}>
-              {time}
-            </Text>
-            <Text
-              className="w-full text-left"
-              style={{
-                fontFamily: typography.regular,
-                fontSize: fontSize.md,
-                writingDirection: 'rtl',
-              }}>
-              {content}
-            </Text>
-          </View>
-
-          <View className="flex-3 flex-row gap-1">
-            <Feather name="heart" size={20} color="red" />
-            <Text
-              className="text-right uppercase"
-              style={{ fontFamily: typography.bold, fontSize: fontSize.md }}>
-              {likeCount}
-            </Text>
+                <Link
+                  href={`/(user)/${user_id}`}
+                  className="mt-1 text-lg font-extrabold text-green-600">
+                  <Text
+                    className="w-full text-left uppercase"
+                    style={{
+                      fontFamily: typography.bold,
+                      fontSize: fontSize.md,
+                      writingDirection: 'rtl',
+                    }}>
+                    {username}
+                  </Text>
+                </Link>
+                <Text
+                  className="w-full text-left uppercase text-amber-700"
+                  style={{ fontFamily: typography.regular, fontSize: fontSize.md }}>
+                  {time}
+                </Text>
+                <Text
+                  className="w-full text-left uppercase"
+                  style={{
+                    fontFamily: typography.regular,
+                    fontSize: fontSize.md,
+                    writingDirection: 'rtl',
+                  }}>
+                  {content}
+                </Text>
+              </View>
+              <LikesComponent likes={like_count ?? 0} />
+            </View>
           </View>
         </View>
 
