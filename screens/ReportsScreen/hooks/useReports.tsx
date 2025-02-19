@@ -1,5 +1,6 @@
 import { useIsFocused } from '@react-navigation/native';
 import { PostgrestError } from '@supabase/supabase-js';
+import * as Location from 'expo-location';
 import { router } from 'expo-router';
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Alert } from 'react-native';
@@ -30,6 +31,7 @@ const useReports = () => {
   const [country, setCountry] = useState<string | null>(null);
   const [language, setLanguage] = useState<string | null>(null);
   const [isInitialized, setIsInitialized] = useState(false);
+  const [location, setLocation] = useState<Location.LocationObject | null>(null);
 
   const { session, user } = useAuth();
 
@@ -38,11 +40,26 @@ const useReports = () => {
   const { keyExtractor, getItemLayout, renderFooter, renderSeparator } = useListConfig(hasNextPage);
 
   useEffect(() => {
-    fetchNearbyEvents();
+    (async () => {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert('Permission to access location was denied');
+        return;
+      }
+
+      const location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+    })();
+  }, []);
+
+  useEffect(() => {
+    if (location) {
+      fetchNearbyEvents();
+    }
     if (isInitialized) {
       //fetchNextPage();
     }
-  }, [isInitialized]);
+  }, [isInitialized, location]);
 
   useEffect(() => {
     return () => cache.clear();
@@ -213,9 +230,14 @@ const useReports = () => {
   );
 
   const fetchNearbyEvents = async () => {
+    if (!location) {
+      return;
+    }
+
+    console.log(location?.coords.latitude, location?.coords.longitude);
     const { data, error } = await supabase.rpc('nearby_reports', {
-      lat: 32.07052416448193,
-      long: 34.82577946183203,
+      lat: location?.coords.latitude || 32.0853,
+      long: location?.coords.longitude || 34.82577946183203,
     });
 
     if (data) {

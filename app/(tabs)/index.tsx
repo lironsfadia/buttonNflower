@@ -1,4 +1,3 @@
-import { Flower } from 'lucide-react-native';
 import React from 'react';
 import {
   ActivityIndicator,
@@ -14,6 +13,8 @@ import FloatingButton from '~/components/FloatingButton/FloatingButton';
 import { SCREENS } from '~/consts/screens';
 import { fontSize, typography } from '~/consts/theme';
 import useReports from '~/screens/ReportsScreen/hooks/useReports';
+
+import * as Location from 'expo-location';
 
 // by default, show all reports by radius/country sorted by date.
 // Add search on the top - .

@@ -51,7 +51,7 @@ function useCreateReport() {
           seen_at: date.toISOString(),
           user_id: user?.id,
           pics: [imageUrl],
-          location_point: 'POINT(34.82577946183203 32.07052416448193)', //long lat
+          location_point: 'POINT(34.80740325535469 32.07082176656818)', //long lat
         },
       ])
       .select()
