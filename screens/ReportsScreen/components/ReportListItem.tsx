@@ -13,8 +13,17 @@ import { ListItem } from '~/screens/ReportsScreen/reports';
 import { formatDate } from '~/utils/time';
 
 const ReportListItem = memo(
-  ({ item, index }: ListItem) => {
-    const { id, name: title, created_at: date, view_count: viewCount, pics } = item;
+  ({ item }: ListItem) => {
+    const {
+      id,
+      name: title,
+      created_at: date,
+      items_count: itemCount,
+      pics,
+      like_count,
+      view_count: viewsCount,
+      dist_meters,
+    } = item;
     const { isFavorite, toggleFavorite } = useReportListItem(id);
 
     const time = formatDate(date);
@@ -27,7 +36,7 @@ const ReportListItem = memo(
         }}
         asChild>
         <Pressable
-          className="mb-4 flex-1 overflow-hidden rounded-xl bg-white p-4"
+          className="mb-4 flex-1 overflow-hidden rounded-xl bg-white p-5"
           style={{
             shadowColor: '#000',
             shadowOffset: { width: 0, height: 2 },
@@ -52,7 +61,7 @@ const ReportListItem = memo(
               <Text
                 className="text-left text-base text-gray-600"
                 style={{ fontFamily: typography.regular, fontSize: fontSize.md }}>
-                {viewCount || 0} views
+                {viewsCount || 0} views ● {Math.round(Number(dist_meters) / 1000)} ק״מ ממך
               </Text>
               <Pressable
                 onPress={toggleFavorite}
@@ -85,8 +94,8 @@ const ReportListItem = memo(
                 <SupaImage
                   bucketName="report_imgs"
                   path={pics?.[0]}
-                  className="aspect-video rounded-xl"
-                  height={100}
+                  className="aspect-video w-2/5 rounded-xl"
+                  height={90}
                 />
               )}
 

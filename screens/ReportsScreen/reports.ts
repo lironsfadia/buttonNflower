@@ -1,4 +1,4 @@
-import { Report } from '~/types/db';
+import { nearbyReports } from '~/types/db';
 
 interface Coordinates {
   lat: number;
@@ -12,8 +12,10 @@ interface FavoriteFloweringReport {
   created_at: string;
 }
 
+type nearbyReport = nearbyReports[number];
+
 interface ListItem {
-  item: Report;
+  item: nearbyReport;
   index: number;
 }
 

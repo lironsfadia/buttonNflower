@@ -1,7 +1,6 @@
-import { PostgrestError } from '@supabase/supabase-js';
 import { router } from 'expo-router';
-import React, { useCallback, useEffect, useState } from 'react';
-import { I18nManager, Alert } from 'react-native';
+import { useCallback, useEffect, useState } from 'react';
+import { Alert } from 'react-native';
 
 import { Plant } from '../PlantsScreen/types';
 
@@ -37,7 +36,6 @@ function useCreateReport() {
   }, []);
 
   const createReport = async () => {
-    console.log('createReport', imageUrl);
     setLoading(true);
     const { data, error } = await supabase
       .from('reports')
@@ -53,6 +51,7 @@ function useCreateReport() {
           seen_at: date.toISOString(),
           user_id: user?.id,
           pics: [imageUrl],
+          location_point: 'POINT(34.82577946183203 32.07052416448193)', //long lat
         },
       ])
       .select()
@@ -87,6 +86,7 @@ function useCreateReport() {
 
   const handleSelect = useCallback(
     (itemId: number) => {
+      console.log('handleSelect', itemId);
       setPlantIds([...plantIds, itemId]);
     },
     [plantIds]

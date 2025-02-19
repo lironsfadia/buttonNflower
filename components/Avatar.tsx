@@ -99,11 +99,11 @@ export default function Avatar({ url, size = 150, onUpload, bucketName }: Props)
         throw uploadError;
       }
 
-      const {
-        data: { publicUrl },
-      } = supabase.storage.from(bucketName).getPublicUrl(newFilePath);
+      // const {
+      //   data: { publicUrl },
+      // } = supabase.storage.from(bucketName).getPublicUrl(newFilePath);
 
-      onUpload(newFilePath); // Update this to pass the full URL
+      onUpload?.(newFilePath); // Update this to pass the full URL
     } catch (error) {
       if (error instanceof Error) {
         Alert.alert(error.name, error.message);
@@ -125,9 +125,7 @@ export default function Avatar({ url, size = 150, onUpload, bucketName }: Props)
           style={[avatarSize, styles.avatar, styles.image]}
         />
       ) : (
-        <View style={[avatarSize, styles.avatar, styles.noImage]}>
-          <ActivityIndicator size="large" color="#0000ff" />
-        </View>
+        <View style={[avatarSize, styles.avatar, styles.noImage]} className="bg-slate-300" />
       )}
 
       <View>
@@ -153,8 +151,7 @@ const styles = StyleSheet.create({
     paddingTop: 0,
   },
   noImage: {
-    flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
   },
 });

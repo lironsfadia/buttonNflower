@@ -11,13 +11,13 @@ import { PAGE_SIZE } from '~/consts/screens';
 import { useAuth } from '~/contexts/authProvider';
 import { DataCache } from '~/data/DataCache';
 import { useListConfig } from '~/hooks/useListConfig';
-import { FloweringReport } from '~/screens/ReportsScreen/reports';
+import { nearbyReports, Report } from '~/types/db';
 import { supabase } from '~/utils/supabase';
 
 const useReports = () => {
   const isFocused = useIsFocused();
 
-  const [reports, setReports] = useState<FloweringReport[] | null>([]);
+  const [reports, setReports] = useState<nearbyReports[] | null>(null);
   const [error, setError] = useState<PostgrestError | null>(null);
   const [loading, setLoading] = useState(true);
   const [username, setUsername] = useState('');
@@ -37,6 +37,21 @@ const useReports = () => {
 
   const { keyExtractor, getItemLayout, renderFooter, renderSeparator } = useListConfig(hasNextPage);
 
+  useEffect(() => {
+    fetchNearbyEvents();
+    if (isInitialized) {
+      //fetchNextPage();
+    }
+  }, [isInitialized]);
+
+  useEffect(() => {
+    return () => cache.clear();
+  }, []);
+
+  useEffect(() => {
+    if (session) getProfile();
+  }, [session]);
+
   const fetchReports = async (pageNumber: number) => {
     try {
       const start = (pageNumber - 1) * PAGE_SIZE;
@@ -53,10 +68,6 @@ const useReports = () => {
       throw new Error(err instanceof Error ? err.message : 'Failed to fetch reports');
     }
   };
-
-  useEffect(() => {
-    if (session) getProfile();
-  }, [session]);
 
   async function getProfile() {
     try {
@@ -194,22 +205,23 @@ const useReports = () => {
     init();
   }, []);
 
-  useEffect(() => {
-    if (isInitialized) {
-      fetchNextPage();
-    }
-  }, [isInitialized]);
-
-  useEffect(() => {
-    return () => cache.clear();
-  }, []);
-
   const renderItem = useCallback(
-    ({ item, index }: { item: FloweringReport; index: number }) => (
+    ({ item, index }: { item: Report; index: number }) => (
       <ReportListItem item={item} index={index} />
     ),
     [cache, isFocused]
   );
+
+  const fetchNearbyEvents = async () => {
+    const { data, error } = await supabase.rpc('nearby_reports', {
+      lat: 32.07052416448193,
+      long: 34.82577946183203,
+    });
+
+    if (data) {
+      setReports(data);
+    }
+  };
 
   return {
     loading,
