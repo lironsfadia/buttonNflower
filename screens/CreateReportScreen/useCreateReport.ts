@@ -5,6 +5,7 @@ import { Alert } from 'react-native';
 import { Plant } from '../PlantsScreen/types';
 
 import { useAuth } from '~/contexts/authProvider';
+import { GeoJSONResponse } from '~/types/adressAutocomplete';
 import { supabase } from '~/utils/supabase';
 
 function useCreateReport() {
@@ -19,6 +20,7 @@ function useCreateReport() {
   const [loading, setLoading] = useState<boolean>(false);
   const [plants, setPlants] = useState<Partial<Plant>[]>([]);
   const [imageUrl, setImageUrl] = useState<string>('');
+  const [location, setLocation] = useState<GeoJSONResponse | null>(null);
 
   useEffect(() => {
     const fetchPlants = async () => {
@@ -37,6 +39,9 @@ function useCreateReport() {
 
   const createReport = async () => {
     setLoading(true);
+
+    const lat = location?.features[0].geometry.coordinates[1];
+    const long = location?.features[0].geometry.coordinates[0];
     const { data, error } = await supabase
       .from('reports')
       .insert([
@@ -47,11 +52,12 @@ function useCreateReport() {
           status: 'ממתין לאישור',
           items_count: Number(itemsCount),
           content,
+          location: location?.features[0].properties.name,
           plant_ids: plantIds,
           seen_at: date.toISOString(),
           user_id: user?.id,
           pics: [imageUrl],
-          location_point: 'POINT(34.80740325535469 32.07082176656818)', //long lat
+          location_point: `POINT(${long} ${lat})`, //long lat
         },
       ])
       .select()
@@ -111,6 +117,7 @@ function useCreateReport() {
     createReport,
     setImageUrl,
     imageUrl,
+    setLocation,
   };
 }
 

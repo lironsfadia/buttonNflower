@@ -23,6 +23,7 @@ const ReportListItem = memo(
       like_count,
       view_count: viewsCount,
       dist_meters,
+      location,
     } = item;
     const { isFavorite, toggleFavorite } = useReportListItem(id);
 
@@ -61,8 +62,14 @@ const ReportListItem = memo(
               <Text
                 className="text-left text-base text-gray-600"
                 style={{ fontFamily: typography.regular, fontSize: fontSize.md }}>
+                {location}
+              </Text>
+              <Text
+                className="text-left text-base text-gray-600"
+                style={{ fontFamily: typography.regular, fontSize: fontSize.md }}>
                 {viewsCount || 0} views ● {Math.round(Number(dist_meters) / 1000)} ק״מ ממך
               </Text>
+
               <Pressable
                 onPress={toggleFavorite}
                 className="rounded-full bg-gray-50 p-3"

@@ -13,7 +13,7 @@ function ReportScreen() {
   const { report, onLike, loading, time, plants, reporter } = useReport();
   const { username } = reporter ?? '';
 
-  const { name, content, like_count, pics, user_id } = report || {};
+  const { name, content, like_count, pics, user_id, location } = report || {};
   console.log('report', report);
 
   if (loading) {
@@ -76,6 +76,15 @@ function ReportScreen() {
                     {username}
                   </Text>
                 </Link>
+                <Text
+                  className="w-full text-left uppercase"
+                  style={{
+                    fontFamily: typography.bold,
+                    fontSize: fontSize.md,
+                    writingDirection: 'rtl',
+                  }}>
+                  {location}
+                </Text>
                 <Text
                   className="w-full text-left uppercase text-amber-700"
                   style={{ fontFamily: typography.regular, fontSize: fontSize.md }}>
