@@ -92,7 +92,6 @@ function useCreateReport() {
 
   const handleSelect = useCallback(
     (itemId: number) => {
-      console.log('handleSelect', itemId);
       setPlantIds([...plantIds, itemId]);
     },
     [plantIds]

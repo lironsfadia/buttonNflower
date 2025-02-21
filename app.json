@@ -16,10 +16,17 @@
       [
         "expo-location",
         {
-          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location.",
+          "locationWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
         }
       ],
-      "expo-font"
+      "expo-font",
+      [
+        "@rnmapbox/maps",
+        {
+          "accessToken": "sk.eyJ1IjoibWFkemF2aXQiLCJhIjoiY203ZGNsdTF3MDF0ZDJpc2JrczdhdmhvaSJ9.VE56XYA3r5PdgYkVhj0rvA"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

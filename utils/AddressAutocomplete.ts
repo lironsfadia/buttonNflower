@@ -16,14 +16,15 @@ export async function getSuggestions(
   return json;
 }
 
-export async function reteriveDetails(id: string, sessionToken: string): Promise<GeoJSONResponse> {
-  console.log('reteriveDetails');
+export async function reteriveDetails(
+  id: string,
+  sessionToken: string | undefined
+): Promise<GeoJSONResponse> {
   try {
     const response = await fetch(
       `https://api.mapbox.com/search/searchbox/v1/retrieve/${id}?language=en&session_token=${sessionToken}&access_token=${mapboxToken}`
     );
     const json = await response.json();
-    console.log('reteriveDetails:', json);
     return json;
   } catch (error) {
     console.error('reteriveDetails error:', error);

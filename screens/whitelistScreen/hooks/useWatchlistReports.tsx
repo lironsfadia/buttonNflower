@@ -40,8 +40,7 @@ export const useWatchlistReports = () => {
 
   useEffect(() => {
     const reports = cache.getAll();
-    console.log(reports.map((report) => report.id));
-    console.log(favorites.map((favorite) => favorite));
+
     const filtered = reports.filter((report) =>
       favorites.some((favorite) => favorite.report_id === report.id)
     );

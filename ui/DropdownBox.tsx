@@ -11,7 +11,6 @@ const CustomDropdown = ({ data, defaultValue, onSelect, textStyles }: CustomDrop
 
   useEffect(() => {
     if (!isFocused) {
-      console.log('isFocused', isFocused);
       setSelected({ name: defaultValue, id: -1 });
     }
   }, [isFocused]);

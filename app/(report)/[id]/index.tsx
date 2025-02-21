@@ -1,9 +1,8 @@
-import Feather from '@expo/vector-icons/Feather';
 import { Link, Stack } from 'expo-router';
-import { View, Text, Pressable, ActivityIndicator, I18nManager } from 'react-native';
-import LikesComponent from '~/components/likesComponent';
-import SupaImage from '~/components/SupaImage';
+import { View, Text, Pressable, ActivityIndicator } from 'react-native';
 
+import SupaImage from '~/components/SupaImage';
+import LikesComponent from '~/components/likesComponent';
 import { STACK } from '~/consts/stack';
 import { typography, fontSize } from '~/consts/theme';
 import useReport from '~/screens/ReportScreen/hooks/useReport';
@@ -14,7 +13,6 @@ function ReportScreen() {
   const { username } = reporter ?? '';
 
   const { name, content, like_count, pics, user_id, location } = report || {};
-  console.log('report', report);
 
   if (loading) {
     return <ActivityIndicator />;

@@ -27,7 +27,6 @@ export default function Avatar({ url, size = 150, onUpload, bucketName }: Props)
   }, [url, filePath]);
 
   async function downloadImage(path: string) {
-    console.log({ path });
     try {
       const { data, error } = await supabase.storage.from(bucketName).download(path);
 

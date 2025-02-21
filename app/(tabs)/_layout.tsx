@@ -4,10 +4,10 @@ import { Button, Platform } from 'react-native';
 import { HeaderButton } from '../../components/HeaderButton';
 import { TabBarIcon } from '../../components/TabBarIcon';
 
+import { SCREENS } from '~/consts/screens';
 import { TABS } from '~/consts/tabs';
 import { useAuth } from '~/contexts/authProvider';
 import { supabase } from '~/utils/supabase';
-import { SCREENS } from '~/consts/screens';
 
 export default function TabLayout() {
   const { isAuth } = useAuth();

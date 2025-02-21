@@ -28,27 +28,27 @@ export default function AddressAutoComplete({
     setInput(suggestion.name);
     setSuggestions([]);
 
-    const details = await reteriveDetails(suggestion.mapbox_id);
-    console.log('details:', details);
+    const details = await reteriveDetails(suggestion.mapbox_id, session?.access_token);
     onSelect(details);
   };
 
   return (
-    <View className="flex flex-row items-center justify-between gap-3">
-      <TextInput
-        placeholder="מיקום"
-        className={`${textStyles} flex-1`}
-        value={input}
-        onChangeText={setInput}
-      />
-      <FontAwesome
-        name="search"
-        size={24}
-        color={disabledSearch ? 'grey' : 'black'}
-        onPress={search}
-        disabled={disabledSearch}
-      />
-
+    <>
+      <View className="flex flex-row items-center justify-between gap-3">
+        <TextInput
+          placeholder="מיקום"
+          className={`${textStyles} flex-1`}
+          value={input}
+          onChangeText={setInput}
+        />
+        <FontAwesome
+          name="search"
+          size={24}
+          color={disabledSearch ? 'grey' : 'black'}
+          onPress={search}
+          disabled={disabledSearch}
+        />
+      </View>
       <View className="gap-2">
         {suggestions.map((item) => (
           <Pressable
@@ -64,6 +64,6 @@ export default function AddressAutoComplete({
           </Pressable>
         ))}
       </View>
-    </View>
+    </>
   );
 }
