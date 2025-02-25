@@ -12,6 +12,7 @@ export default function AddressAutoComplete({
 }: {
   onSelect: (location: GeoJSONResponse) => void;
 }) {
+  // improve can be found them not by distence, by box
   const [input, setInput] = useState('');
   const [suggestions, setSuggestions] = useState<Suggestion[] | []>([]);
   const { session } = useAuth();

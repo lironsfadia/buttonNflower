@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '~/contexts/authProvider';
 import { Plant, Report, User } from '~/types/db';
 import { supabase } from '~/utils/supabase';
-import { formatDate } from '~/utils/time';
+import { formatFullDate, formatTime } from '~/utils/time';
 
 interface EventOutput {
   report: Report | null;
@@ -82,7 +82,8 @@ function useReport(): EventOutput {
   }, [id, isFocused]);
 
   const { created_at } = report || {};
-  const time = formatDate(created_at);
+  const fullTime = formatFullDate(created_at);
+  const shortTime = formatTime(created_at);
 
   const onLike = async () => {};
   // const onAttend = async () => {
@@ -100,7 +101,7 @@ function useReport(): EventOutput {
   //   }
   // };
 
-  return { report, plants, onLike, loading, time, reporter };
+  return { report, plants, onLike, loading, fullTime, shortTime, reporter };
 }
 
 export default useReport;

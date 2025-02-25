@@ -1,13 +1,11 @@
-import { Link, Redirect, Tabs } from 'expo-router';
-import { Button, Platform } from 'react-native';
+import { Redirect, Tabs } from 'expo-router';
+import { Platform } from 'react-native';
 
-import { HeaderButton } from '../../components/HeaderButton';
 import { TabBarIcon } from '../../components/TabBarIcon';
 
 import { SCREENS } from '~/consts/screens';
 import { TABS } from '~/consts/tabs';
 import { useAuth } from '~/contexts/authProvider';
-import { supabase } from '~/utils/supabase';
 
 export default function TabLayout() {
   const { isAuth } = useAuth();
@@ -19,26 +17,19 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
+        headerShown: false,
         tabBarActiveTintColor: Platform.select({
           ios: TABS.ACTIVE_TINT_COLOR.IOS,
           android: TABS.ACTIVE_TINT_COLOR.ANDROID,
           default: TABS.ACTIVE_TINT_COLOR.IOS,
         }),
-
-        headerRight: () => <Button onPress={() => supabase.auth.signOut()} title="Sign out" />,
       }}>
       <Tabs.Screen
-        name="index"
+        name="reports"
         options={{
           tabBarLabel: SCREENS.SCREEN_NAMES.FLOWERING_REPORTS,
-          title: TABS.TAB_NAMES.SEARCH,
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name="flower" color={color} focused={focused} />
-          ),
-          headerRight: () => (
-            <Link href="/profile" asChild>
-              <HeaderButton />
-            </Link>
           ),
         }}
       />

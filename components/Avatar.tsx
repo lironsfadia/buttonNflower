@@ -129,7 +129,7 @@ export default function Avatar({ url, size = 150, onUpload, bucketName }: Props)
 
       <View>
         <Button
-          title={uploading ? 'Uploading ...' : 'Upload'}
+          title={uploading ? 'טוען תמונה' : 'העלאת תמונה'}
           onPress={uploadAvatar}
           disabled={uploading}
         />

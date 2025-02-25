@@ -30,6 +30,7 @@ export default function ReportsMapView() {
           followUserLocation
         />
         <LocationPuck puckBearing="heading" puckBearingEnabled pulsing={{ isEnabled: true }} />
+        {/* improve  - better points, better theme, cluster*/}
         <ShapeSource
           id="events"
           shape={featureCollection(points)}

@@ -6,6 +6,7 @@ import { STACK } from '~/consts/stack';
 import { textStyles } from '~/consts/theme';
 import { useAuth } from '~/contexts/authProvider';
 import useReports from '~/screens/ReportsScreen/hooks/useReports';
+import { supabase } from '~/utils/supabase';
 
 export default function Home() {
   const {
@@ -27,7 +28,7 @@ export default function Home() {
     <View className="flex-1 gap-3 bg-white p-5">
       <Stack.Screen
         options={{
-          title: 'Profile',
+          title: 'הפרופיל שלי',
           headerBackTitleVisible: false,
           headerTintColor: STACK.HEADER_TINT_COLOR,
         }}
@@ -47,7 +48,7 @@ export default function Home() {
       <TextInput
         editable={false}
         value={session?.user?.email}
-        placeholder="email"
+        placeholder="דוא״ל"
         autoCapitalize="none"
         className={textStyles}
       />
@@ -55,7 +56,7 @@ export default function Home() {
       <TextInput
         onChangeText={(text) => setUsername(text)}
         value={username}
-        placeholder="user name"
+        placeholder="שם משתמש"
         autoCapitalize="none"
         className={textStyles}
       />
@@ -63,7 +64,7 @@ export default function Home() {
       <TextInput
         onChangeText={(text) => setFullName(text)}
         value={fullName}
-        placeholder="full name"
+        placeholder="שם מלא"
         autoCapitalize="none"
         className={textStyles}
       />
@@ -71,18 +72,25 @@ export default function Home() {
       <TextInput
         onChangeText={(text) => setWebsite(text)}
         value={website}
-        placeholder="website"
+        placeholder="אתר"
         autoCapitalize="none"
         className={textStyles}
       />
 
       <Pressable
-        className="items-center rounded-md border-2 border-blue-400 p-5 px-8"
+        className="items-center rounded-md border-2 bg-blue-400 p-5 px-8"
         onPress={() =>
           updateProfile({ username, website, avatar_url: avatarUrl, full_name: fullName })
         }
         disabled={loading}>
-        <Text className="font-bold text-blue-500 ">Save</Text>
+        <Text className="font-bold text-white ">עריכת פרופיל</Text>
+      </Pressable>
+
+      <Pressable
+        className="items-center rounded-md border-2 border-red-400 p-5 px-8"
+        onPress={() => supabase.auth.signOut()}
+        disabled={loading}>
+        <Text className="font-bold text-red-500">התנתקות</Text>
       </Pressable>
     </View>
   );

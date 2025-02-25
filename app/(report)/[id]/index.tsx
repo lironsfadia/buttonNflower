@@ -6,10 +6,9 @@ import LikesComponent from '~/components/likesComponent';
 import { STACK } from '~/consts/stack';
 import { typography, fontSize } from '~/consts/theme';
 import useReport from '~/screens/ReportScreen/hooks/useReport';
-import ImageSlider from '~/screens/ReportsScreen/components/ImageSlider';
 
 function ReportScreen() {
-  const { report, onLike, loading, time, plants, reporter } = useReport();
+  const { report, onLike, loading, fullTime, shortTime, plants, reporter } = useReport();
   const { username } = reporter ?? '';
 
   const { name, content, like_count, pics, user_id, location } = report || {};
@@ -35,13 +34,13 @@ function ReportScreen() {
       <View className="flex-1 flex-col gap-7 bg-white p-5">
         <Stack.Screen
           options={{
-            title: 'Report',
+            title: `דיווח מתאריך ${shortTime}`,
             headerBackTitleVisible: false,
             headerTintColor: STACK.HEADER_TINT_COLOR,
           }}
         />
 
-        <View className="flex-row px-4">
+        <View className="flex-row pl-2">
           <View className="w-full flex-1 flex-col items-start gap-3">
             <SupaImage
               bucketName="report_imgs"
@@ -86,7 +85,7 @@ function ReportScreen() {
                 <Text
                   className="w-full text-left uppercase text-amber-700"
                   style={{ fontFamily: typography.regular, fontSize: fontSize.md }}>
-                  {time}
+                  {fullTime}
                 </Text>
                 <Text
                   className="w-full text-left uppercase"

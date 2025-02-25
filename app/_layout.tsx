@@ -1,12 +1,9 @@
 import '../global.css';
 
 import { useFonts, Heebo_400Regular, Heebo_700Bold } from '@expo-google-fonts/heebo';
-
-import { ErrorBoundary, Stack } from 'expo-router';
+import { Stack } from 'expo-router';
 import { useState, useEffect } from 'react';
 import { useColorScheme, View } from 'react-native';
-import { SCREENS } from '~/consts/screens';
-import { TABS } from '~/consts/tabs';
 
 import AuthProvider from '~/contexts/authProvider';
 import SplashScreen from '~/screens/SplashScreen/SplashScreen';

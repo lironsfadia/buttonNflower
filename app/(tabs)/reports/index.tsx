@@ -10,11 +10,10 @@ import {
 } from 'react-native';
 
 import FloatingButton from '~/components/FloatingButton/FloatingButton';
+import ScrollMenu from '~/components/Menu';
 import { SCREENS } from '~/consts/screens';
 import { fontSize, typography } from '~/consts/theme';
 import useReports from '~/screens/ReportsScreen/hooks/useReports';
-
-import * as Location from 'expo-location';
 
 // by default, show all reports by radius/country sorted by date.
 // Add search on the top - .
@@ -70,6 +69,22 @@ export default function Reports() {
     getItemLayout,
   } = useReports();
 
+  const menuItems = [
+    { id: 1, title: 'בית' },
+    { id: 2, title: 'כלב' },
+    { id: 3, title: 'סוס' },
+    { id: 4, title: 'חתול' },
+    { id: 5, title: 'בת יענה' },
+    { id: 6, title: 'היפו' },
+    { id: 7, title: 'פיל' },
+    { id: 8, title: 'נחש' },
+  ];
+
+  const handleMenuSelect = (item) => {
+    console.log('Selected:', item.title);
+    // Navigate or update content based on selection
+  };
+
   // Force RTL for the entire app
   I18nManager.forceRTL(true);
   I18nManager.allowRTL(true);
@@ -96,14 +111,7 @@ export default function Reports() {
 
   return (
     <SafeAreaView className="flex-1 bg-white p-5">
-      {/* <View className="ios:pt-4 android:pt-4 flex-row justify-start gap-2 border-b border-b-gray-200">
-        <Flower size={SCREENS.ICON_SIZE_LARGE} color="green" />
-        <Text
-          className="ml-2 color-green-600"
-          style={{ fontFamily: typography.bold, fontSize: fontSize.lg }}>
-          {SCREENS.SCREEN_NAMES.FLOWERING_REPORTS}
-        </Text>
-      </View> */}
+      <ScrollMenu items={menuItems} onSelect={handleMenuSelect} />
       <FlatList
         className="flex-1"
         data={reports}
