@@ -1,21 +1,35 @@
 import { FontAwesome } from '@expo/vector-icons';
-import { useMemo, useState } from 'react';
+import { useIsFocused } from '@react-navigation/native';
+import { useEffect, useMemo, useState } from 'react';
 import { View, Text, TextInput, Pressable } from 'react-native';
 
 import { fontSize, textStyles, typography } from '~/consts/theme';
 import { useAuth } from '~/contexts/authProvider';
+import { FormField } from '~/screens/CreateReportScreen/types';
 import { GeoJSONResponse, Suggestion } from '~/types/adressAutocomplete';
 import { getSuggestions, reteriveDetails } from '~/utils/AddressAutocomplete';
 
 export default function AddressAutoComplete({
   onSelect,
+  onBlur,
 }: {
   onSelect: (location: GeoJSONResponse) => void;
+  onBlur?: (fieldName: FormField, value: string | number | number[] | GeoJSONResponse) => void;
+  error?: string | undefined;
 }) {
-  // improve can be found them not by distence, by box
+  const isFocused = useIsFocused();
+
+  const { session } = useAuth();
+
   const [input, setInput] = useState('');
   const [suggestions, setSuggestions] = useState<Suggestion[] | []>([]);
-  const { session } = useAuth();
+
+  useEffect(() => {
+    if (!isFocused) {
+      setSuggestions([]);
+      setInput('');
+    }
+  }, [isFocused]);
 
   const search = async () => {
     const data = await getSuggestions(input, session?.access_token);
@@ -34,7 +48,7 @@ export default function AddressAutoComplete({
   };
 
   return (
-    <>
+    <View>
       <View className="flex flex-row items-center justify-between gap-3">
         <TextInput
           placeholder="מיקום"
@@ -55,8 +69,9 @@ export default function AddressAutoComplete({
           <Pressable
             onPress={() => {
               onSuggestionClick(item);
+              onBlur?.('location', item);
             }}
-            key={item.name}
+            key={`${item.name}_${Date.now()}`}
             className="border-grey-300 border p-2">
             <Text style={{ fontFamily: typography.bold, fontSize: fontSize.md }}>{item.name}</Text>
             <Text style={{ fontFamily: typography.regular, fontSize: fontSize.md }}>
@@ -65,6 +80,6 @@ export default function AddressAutoComplete({
           </Pressable>
         ))}
       </View>
-    </>
+    </View>
   );
 }

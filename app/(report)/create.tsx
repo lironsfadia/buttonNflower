@@ -13,30 +13,28 @@ import CustomDropdown from '~/ui/DropdownBox';
 function CreateReport() {
   const {
     name,
-    setName,
+    handleName,
+    handleImage,
+    handleContent,
+    handleItemsCount,
     content,
-    setContent,
     setOpen,
     open,
     loading,
     plants,
     itemsCount,
-    setItemsCount,
     handleSelect,
     date,
     setDate,
     createReport,
     imageUrl,
-    setImageUrl,
     setLocation,
+    validateField,
+    displayErrors,
   } = useCreateReport();
 
-  // Force RTL for the entire app
-  I18nManager.forceRTL(true);
-  I18nManager.allowRTL(true);
-
   return (
-    <ScrollView className="flex-1" contentContainerClassName="gap-3 bg-white p-5">
+    <ScrollView className="flex-1" contentContainerClassName="gap-5 bg-white p-5">
       <Stack.Screen
         options={{
           title: 'דיווח פריחה חדש',
@@ -48,26 +46,22 @@ function CreateReport() {
         ספר מה ראית:
       </Text>
       <View className="items-center">
-        <Avatar
-          size={200}
-          url={imageUrl}
-          onUpload={(url: string) => {
-            setImageUrl(url);
-          }}
-          bucketName="report_imgs"
-        />
+        <Avatar size={200} url={imageUrl} onUpload={handleImage} bucketName="report_imgs" />
       </View>
-      <TextInput className={textStyles} value={name} onChangeText={setName} placeholder="שם" />
+      <TextInput className={textStyles} value={name} onChangeText={handleName} placeholder="שם" />
       <TextInput
         className={`${textStyles} min-h-32`}
         placeholder="תוכן דיווח"
         value={content}
-        onChangeText={setContent}
+        onChangeText={handleContent}
         multiline
+        maxLength={500}
         numberOfLines={3}
       />
-
-      <Text className={textStyles} onPress={() => setOpen(true)}>
+      <Text
+        className={textStyles}
+        onPress={() => setOpen(true)}
+        style={{ fontFamily: typography.regular, fontSize: fontSize.sm }}>
         {date.toLocaleString()}
       </Text>
       <DatePicker
@@ -88,9 +82,9 @@ function CreateReport() {
         className={textStyles}
         placeholder="כמות פריטים"
         value={itemsCount}
-        onChangeText={setItemsCount}
+        onChangeText={handleItemsCount}
       />
-      <AddressAutoComplete onSelect={setLocation} />
+      <AddressAutoComplete onSelect={setLocation} onBlur={validateField} />
       <CustomDropdown
         data={plants}
         defaultValue="בחר פרח"
@@ -98,13 +92,21 @@ function CreateReport() {
         textStyles="rounded-md border-2 border-gray-300 p-3"
       />
       <Pressable
-        className="mt-7 items-center rounded-md border-2 bg-blue-500 p-5 px-8"
-        onPress={() => createReport()}
-        disabled={loading}>
+        className="mt-5 items-center rounded-md border-2 bg-blue-500 p-5 px-8"
+        onPress={() => createReport()}>
         <Text className="text-white" style={{ fontFamily: typography.bold, fontSize: fontSize.md }}>
           שמור
         </Text>
       </Pressable>
+
+      <View className="mt-2 rounded-md border border-red-300 bg-red-50 p-3">
+        {displayErrors.map((value) => (
+          <Text
+            key={value.split(' ')[0]}
+            className="text-left text-sm text-red-500"
+            style={{ fontFamily: typography.bold, fontSize: fontSize.md }}>{`${value}\n`}</Text>
+        ))}
+      </View>
     </ScrollView>
   );
 }

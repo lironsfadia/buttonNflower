@@ -1,12 +1,15 @@
 import { router } from 'expo-router';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Alert } from 'react-native';
 
+import { FormErrors, FormField } from './types';
 import { Plant } from '../PlantsScreen/types';
 
 import { useAuth } from '~/contexts/authProvider';
 import { GeoJSONResponse } from '~/types/adressAutocomplete';
 import { supabase } from '~/utils/supabase';
+
+const FORM_FIELDS_COUNT = 6;
 
 function useCreateReport() {
   const { user } = useAuth();
@@ -21,6 +24,32 @@ function useCreateReport() {
   const [plants, setPlants] = useState<Partial<Plant>[]>([]);
   const [imageUrl, setImageUrl] = useState<string>('');
   const [location, setLocation] = useState<GeoJSONResponse | null>(null);
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [displayErrors, setDisplayErrors] = useState<string[]>([]);
+
+  const validators = {
+    name: (value: string) =>
+      value.length > 2 && value.length < 50 && value.match(/^[a-zA-Zא-ת\s]*$/)
+        ? null
+        : 'שם לא תקין',
+    content: (value: string) => (value.length > 2 && value.length < 501 ? null : 'תוכן לא תקין'),
+    itemsCount: (value: string) =>
+      Number(value) > 0 && Number(value) < 100 ? null : 'כמות פריטים לא תקינה',
+    plantIds: (value: number[]) => (value.length > 0 ? null : 'צמח לא נבחר'),
+    imageUrl: (value: string) => (value.length > 0 ? null : 'תמונה לא נבחרה'),
+    location: (value: GeoJSONResponse) => (value !== null ? null : 'מיקום לא נבחר'),
+    date: (value: Date) => (value instanceof Date ? null : 'תאריך לא תקין'),
+  };
+
+  const validateField = useCallback(
+    (fieldName: FormField, value: string | number | number[] | GeoJSONResponse) => {
+      if (!validators[fieldName]) return;
+      const error = validators[fieldName](value);
+
+      setErrors((prev) => ({ ...prev, [fieldName]: error }));
+    },
+    [name, content, itemsCount, plantIds, imageUrl, location]
+  );
 
   useEffect(() => {
     const fetchPlants = async () => {
@@ -38,6 +67,17 @@ function useCreateReport() {
   }, []);
 
   const createReport = async () => {
+    const areAllFieldsFill = Object.values(errors).length === FORM_FIELDS_COUNT;
+    const areAllFieldsValid = Object.values(errors).every((error) => error === null);
+
+    if (!areAllFieldsFill || !areAllFieldsValid) {
+      if (!areAllFieldsFill) {
+        setDisplayErrors(['אנא מלא את כל השדות']);
+      } else {
+        setDisplayErrors(Object.values(errors).filter((value) => value !== null));
+      }
+      return;
+    }
     setLoading(true);
 
     const lat = location?.features[0].geometry.coordinates[1];
@@ -83,6 +123,9 @@ function useCreateReport() {
       setPlantIds([]);
       setImageUrl('');
       setDate(new Date());
+      setDisplayErrors([]);
+      setLocation(null);
+      setErrors({});
 
       router.push(`/(report)/${data.id}`);
     }
@@ -92,22 +135,44 @@ function useCreateReport() {
 
   const handleSelect = useCallback(
     (itemId: number) => {
-      setPlantIds([...plantIds, itemId]);
+      setPlantIds([itemId]);
+      validateField('plantIds', [itemId]);
     },
     [plantIds]
   );
+
+  const handleName = (value: string) => {
+    setName(value);
+    validateField('name', value);
+  };
+
+  const handleImage = (url: string) => {
+    setImageUrl(url);
+    validateField('imageUrl', url);
+  };
+
+  const handleContent = (value: string) => {
+    setContent(value);
+    validateField('content', value);
+  }
+
+  const handleItemsCount = (value: string) => {
+    setItemsCount(value);
+    validateField('itemsCount', value)
+  }
 
   return {
     open,
     setOpen,
     name,
-    setName,
+    handleName,
+    handleImage,
+    handleContent,
+    handleItemsCount,
     itemsCount,
-    setItemsCount,
     plantIds,
     setPlantIds,
     content,
-    setContent,
     date,
     setDate,
     loading,
@@ -117,6 +182,8 @@ function useCreateReport() {
     setImageUrl,
     imageUrl,
     setLocation,
+    validateField,
+    displayErrors,
   };
 }
 

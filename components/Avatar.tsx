@@ -1,3 +1,4 @@
+import { useIsFocused } from '@react-navigation/native';
 import { decode } from 'base64-arraybuffer';
 import * as FileSystem from 'expo-file-system';
 import * as ImagePicker from 'expo-image-picker';
@@ -15,13 +16,18 @@ interface Props {
 }
 
 export default function Avatar({ url, size = 150, onUpload, bucketName }: Props) {
+  const isFocused = useIsFocused();
   const [uploading, setUploading] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [filePath, setFilePath] = useState<string | null>(null);
   const avatarSize = { height: size, width: size };
 
+  console.log({ isFocused, url, filePath });
+
   useEffect(() => {
-    if (url || filePath) {
+    setFilePath(null);
+    setAvatarUrl(null);
+    if ((url || filePath) && isFocused) {
       downloadImage(filePath || url || '');
     }
   }, [url, filePath]);
