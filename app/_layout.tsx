@@ -1,9 +1,10 @@
 import '../global.css';
 
 import { useFonts, Heebo_400Regular, Heebo_700Bold } from '@expo-google-fonts/heebo';
-import { Stack } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 import { useState, useEffect } from 'react';
-import { useColorScheme, View } from 'react-native';
+import { Pressable, useColorScheme, View } from 'react-native';
+import IOSBackArrowRight from '~/components/IOSBackArrowRight';
 
 import AuthProvider from '~/contexts/authProvider';
 import SplashScreen from '~/screens/SplashScreen/SplashScreen';
@@ -15,6 +16,7 @@ export const unstable_settings = {
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
+  const router = useRouter();
 
   const [fontsLoaded] = useFonts({
     Heebo_400Regular,
@@ -52,14 +54,20 @@ export default function RootLayout() {
     <AuthProvider>
       <Stack
         screenOptions={{
-          headerBackTitle: 'Back',
           headerBackTitleVisible: false,
+
           headerStyle: {
             backgroundColor: colorScheme === 'dark' ? '#000' : '#fff',
           },
           headerTitleStyle: {
             fontFamily: 'Heebo_700Bold',
           },
+          headerLeft: ({ canGoBack }) =>
+            canGoBack ? (
+              <Pressable onPress={() => router.back()}>
+                <IOSBackArrowRight />
+              </Pressable>
+            ) : null,
         }}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />

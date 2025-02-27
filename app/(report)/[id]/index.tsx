@@ -1,5 +1,6 @@
 import { Link, Stack } from 'expo-router';
 import { View, Text, Pressable, ActivityIndicator } from 'react-native';
+import EditButton from '~/components/EditButton';
 
 import SupaImage from '~/components/SupaImage';
 import LikesComponent from '~/components/likesComponent';
@@ -37,6 +38,11 @@ function ReportScreen() {
             title: `דיווח מתאריך ${shortTime}`,
             headerBackTitleVisible: false,
             headerTintColor: STACK.HEADER_TINT_COLOR,
+            headerRight: () => (
+              <Link href="/(report)/create">
+                <EditButton />
+              </Link>
+            ),
           }}
         />
 

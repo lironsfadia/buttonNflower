@@ -7,6 +7,7 @@ import Animated, {
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
+
 import { fontSize, typography } from '~/consts/theme';
 
 // Configuration for spring animation
