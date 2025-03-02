@@ -7,16 +7,17 @@ import { Plant, Report, User } from '~/types/db';
 import { supabase } from '~/utils/supabase';
 import { formatFullDate, formatTime } from '~/utils/time';
 
-interface EventOutput {
+interface ReportOutput {
   report: Report | null;
   reporter: any | undefined;
   plants: Plant[] | null;
   onLike: () => void;
   loading: boolean;
-  time: string;
+  fullTime: string;
+  shortTime: string;
 }
 
-function useReport(): EventOutput {
+function useReport(): ReportOutput {
   const isFocused = useIsFocused();
   const { id } = useLocalSearchParams();
   const { user } = useAuth();

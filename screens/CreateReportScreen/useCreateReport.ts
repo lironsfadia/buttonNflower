@@ -1,4 +1,4 @@
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Alert } from 'react-native';
 
@@ -12,18 +12,22 @@ import { supabase } from '~/utils/supabase';
 const FORM_FIELDS_COUNT = 6;
 
 function useCreateReport() {
+  const { reportId } = useLocalSearchParams();
   const { user } = useAuth();
+  const isEditMode = useMemo(() => !!reportId, [reportId]);
+  const [submitButtonText, setSubmitButtonText] = useState<string>('שמור');
 
   const [open, setOpen] = useState<boolean>(false);
   const [name, setName] = useState<string>('');
-  const [itemsCount, setItemsCount] = useState<string>('0');
-  const [plantIds, setPlantIds] = useState<number[]>([]);
-  const [content, setContent] = useState<string>('');
+  const [itemsCount, setItemsCount] = useState<string | null>('0');
+  const [plantIds, setPlantIds] = useState<number[] | null>([]);
+  const [content, setContent] = useState<string | null>('');
   const [date, setDate] = useState<Date>(new Date());
   const [loading, setLoading] = useState<boolean>(false);
   const [plants, setPlants] = useState<Partial<Plant>[]>([]);
+  const [selectPlant, setSelectPlant] = useState<Partial<Plant>>({});
   const [imageUrl, setImageUrl] = useState<string>('');
-  const [location, setLocation] = useState<GeoJSONResponse | null>(null);
+  const [location, setLocation] = useState<GeoJSONResponse | string | null>(null);
   const [errors, setErrors] = useState<FormErrors>({});
   const [displayErrors, setDisplayErrors] = useState<string[]>([]);
 
@@ -65,6 +69,58 @@ function useCreateReport() {
 
     fetchPlants();
   }, []);
+
+  useEffect(() => {
+    const fetchPlants = async () => {
+      try {
+        setLoading(true);
+        const { data, error } = await supabase
+          .from('flower_report_plants')
+          .select('*, plants(*)')
+          .eq('report_id', reportId);
+
+        const plants = data?.map((d) => d.plants);
+        setPlants(plants || []);
+        setSelectPlant({ id: plants[0].id, name: plants[0].name });
+
+        setLoading(false);
+      } catch (e: unknown) {
+        setDisplayErrors([e.toString()]);
+      }
+    };
+
+    const fetchReport = async () => {
+      try {
+        setLoading(true);
+        const { data, error } = await supabase
+          .from('reports')
+          .select('*')
+          .eq('id', reportId)
+          .single();
+        if (!error) {
+          const { name, content, pics, location, items_count, seen_at } = data || {};
+          setName(name);
+          setContent(content);
+          setItemsCount(items_count?.toString() || '0');
+          setImageUrl(pics?.[0] || '');
+          setDate(new Date(seen_at ?? ''));
+          setLocation(location);
+        } else {
+          setDisplayErrors([error.toString()]);
+        }
+        setLoading(false);
+      } catch (e: unknown) {
+        setDisplayErrors([e.toString()]);
+      }
+    };
+    if (isEditMode) {
+      fetchReport();
+      fetchPlants();
+      setSubmitButtonText('עדכן');
+    } else {
+      setSelectPlant({ name: 'בחר פרח', id: -1 });
+    }
+  }, [reportId, isEditMode]);
 
   const createReport = async () => {
     const areAllFieldsFill = Object.values(errors).length === FORM_FIELDS_COUNT;
@@ -154,12 +210,12 @@ function useCreateReport() {
   const handleContent = (value: string) => {
     setContent(value);
     validateField('content', value);
-  }
+  };
 
   const handleItemsCount = (value: string) => {
     setItemsCount(value);
-    validateField('itemsCount', value)
-  }
+    validateField('itemsCount', value);
+  };
 
   return {
     open,
@@ -184,6 +240,8 @@ function useCreateReport() {
     setLocation,
     validateField,
     displayErrors,
+    submitButtonText,
+    selectPlant,
   };
 }
 

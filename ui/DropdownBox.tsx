@@ -6,14 +6,18 @@ import { CustomDropdownProps } from './types';
 
 const CustomDropdown = ({ data, defaultValue, onSelect, textStyles }: CustomDropdownProps) => {
   const [visible, setVisible] = useState(false);
-  const [selected, setSelected] = useState({ name: defaultValue, id: -1 });
+  const [selected, setSelected] = useState<{ id: number; name: string }>({
+    id: Number(defaultValue.id),
+    name: defaultValue.name,
+  });
   const isFocused = useIsFocused();
 
   useEffect(() => {
-    if (!isFocused) {
-      setSelected({ name: defaultValue, id: -1 });
-    }
-  }, [isFocused]);
+    setSelected({
+      id: Number(defaultValue.id),
+      name: defaultValue.name,
+    });
+  }, []);
 
   const onItemPress = (item: { name: string; id: number }) => {
     setSelected(item);
@@ -21,7 +25,7 @@ const CustomDropdown = ({ data, defaultValue, onSelect, textStyles }: CustomDrop
     setVisible(false);
   };
 
-  const renderItem = ({ item }) => (
+  const renderItem = ({ item }: { item: { name: string; id: number } }) => (
     <TouchableOpacity style={styles.option} onPress={() => onItemPress(item)}>
       <Text style={styles.optionText}>{item.name}</Text>
     </TouchableOpacity>

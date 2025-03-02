@@ -1,7 +1,7 @@
 import { Link, Stack } from 'expo-router';
 import { View, Text, Pressable, ActivityIndicator } from 'react-native';
-import EditButton from '~/components/EditButton';
 
+import EditButton from '~/components/EditButton';
 import SupaImage from '~/components/SupaImage';
 import LikesComponent from '~/components/likesComponent';
 import { STACK } from '~/consts/stack';
@@ -12,7 +12,7 @@ function ReportScreen() {
   const { report, onLike, loading, fullTime, shortTime, plants, reporter } = useReport();
   const { username } = reporter ?? '';
 
-  const { name, content, like_count, pics, user_id, location } = report || {};
+  const { id, name, content, like_count, pics, user_id, location } = report || {};
 
   if (loading) {
     return <ActivityIndicator />;
@@ -39,7 +39,13 @@ function ReportScreen() {
             headerBackTitleVisible: false,
             headerTintColor: STACK.HEADER_TINT_COLOR,
             headerRight: () => (
-              <Link href="/(report)/create">
+              <Link
+                href={{
+                  pathname: '/(report)/create',
+                  params: {
+                    reportId: id,
+                  },
+                }}>
                 <EditButton />
               </Link>
             ),

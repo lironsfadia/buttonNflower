@@ -4,8 +4,8 @@ import { useFonts, Heebo_400Regular, Heebo_700Bold } from '@expo-google-fonts/he
 import { Stack, useRouter } from 'expo-router';
 import { useState, useEffect } from 'react';
 import { Pressable, useColorScheme, View } from 'react-native';
-import IOSBackArrowRight from '~/components/IOSBackArrowRight';
 
+import IOSBackArrowRight from '~/components/IOSBackArrowRight';
 import AuthProvider from '~/contexts/authProvider';
 import SplashScreen from '~/screens/SplashScreen/SplashScreen';
 

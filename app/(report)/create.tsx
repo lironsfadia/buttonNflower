@@ -31,6 +31,8 @@ function CreateReport() {
     setLocation,
     validateField,
     displayErrors,
+    submitButtonText,
+    selectPlant,
   } = useCreateReport();
 
   return (
@@ -81,13 +83,13 @@ function CreateReport() {
       <TextInput
         className={textStyles}
         placeholder="כמות פריטים"
-        value={itemsCount}
+        value={itemsCount ?? '0'}
         onChangeText={handleItemsCount}
       />
       <AddressAutoComplete onSelect={setLocation} onBlur={validateField} />
       <CustomDropdown
         data={plants}
-        defaultValue="בחר פרח"
+        defaultValue={selectPlant}
         onSelect={handleSelect}
         textStyles="rounded-md border-2 border-gray-300 p-3"
       />
@@ -95,7 +97,7 @@ function CreateReport() {
         className="mt-5 items-center rounded-md border-2 bg-blue-500 p-5 px-8"
         onPress={() => createReport()}>
         <Text className="text-white" style={{ fontFamily: typography.bold, fontSize: fontSize.md }}>
-          שמור
+          {submitButtonText}
         </Text>
       </Pressable>
 
