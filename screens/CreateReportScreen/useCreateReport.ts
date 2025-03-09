@@ -25,7 +25,13 @@ function useCreateReport() {
   const [date, setDate] = useState<Date>(new Date());
   const [loading, setLoading] = useState<boolean>(false);
   const [plants, setPlants] = useState<Partial<Plant>[]>([]);
-  const [selectPlant, setSelectPlant] = useState<Partial<Plant>>({});
+  const [selectPlant, setSelectPlant] = useState<{
+    id: number;
+    name: string;
+  }>({
+    name: '',
+    id: -1,
+  });
   const [imageUrl, setImageUrl] = useState<string>('');
   const [location, setLocation] = useState<GeoJSONResponse | string | null>(null);
   const [errors, setErrors] = useState<FormErrors>({});
@@ -81,7 +87,9 @@ function useCreateReport() {
 
         const plants = data?.map((d) => d.plants);
         setPlants(plants || []);
-        setSelectPlant({ id: plants[0].id, name: plants[0].name });
+        if (plants && plants.length > 0) {
+          setSelectPlant({ id: plants[0]?.id, name: plants[0]?.name });
+        }
 
         setLoading(false);
       } catch (e: unknown) {
@@ -242,6 +250,7 @@ function useCreateReport() {
     displayErrors,
     submitButtonText,
     selectPlant,
+    location,
   };
 }
 

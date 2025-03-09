@@ -21,6 +21,7 @@ function CreateReport() {
     setOpen,
     open,
     loading,
+    location,
     plants,
     itemsCount,
     handleSelect,
@@ -86,7 +87,7 @@ function CreateReport() {
         value={itemsCount ?? '0'}
         onChangeText={handleItemsCount}
       />
-      <AddressAutoComplete onSelect={setLocation} onBlur={validateField} />
+      <AddressAutoComplete onSelect={setLocation} onBlur={validateField} value={location} />
       <CustomDropdown
         data={plants}
         defaultValue={selectPlant}

@@ -6,18 +6,17 @@ import { CustomDropdownProps } from './types';
 
 const CustomDropdown = ({ data, defaultValue, onSelect, textStyles }: CustomDropdownProps) => {
   const [visible, setVisible] = useState(false);
-  const [selected, setSelected] = useState<{ id: number; name: string }>({
-    id: Number(defaultValue.id),
+  const [selected, setSelected] = useState<{ id: number | undefined; name: string | undefined }>({
+    id: defaultValue.id,
     name: defaultValue.name,
   });
-  const isFocused = useIsFocused();
 
   useEffect(() => {
     setSelected({
-      id: Number(defaultValue.id),
+      id: defaultValue.id,
       name: defaultValue.name,
     });
-  }, []);
+  }, [defaultValue]);
 
   const onItemPress = (item: { name: string; id: number }) => {
     setSelected(item);

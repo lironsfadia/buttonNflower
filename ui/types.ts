@@ -8,7 +8,7 @@ interface ImageProps {
 
 interface CustomDropdownProps {
   data: any[];
-  defaultValue: { id: string; name: string };
+  defaultValue: { id: number; name: string };
   onSelect: (id: number) => void;
   textStyles: string;
 }

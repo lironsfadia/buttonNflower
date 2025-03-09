@@ -12,17 +12,23 @@ import { getSuggestions, reteriveDetails } from '~/utils/AddressAutocomplete';
 export default function AddressAutoComplete({
   onSelect,
   onBlur,
+  value,
 }: {
   onSelect: (location: GeoJSONResponse) => void;
   onBlur?: (fieldName: FormField, value: string | number | number[] | GeoJSONResponse) => void;
+  value?: string | number | GeoJSONResponse;
   error?: string | undefined;
 }) {
   const isFocused = useIsFocused();
 
   const { session } = useAuth();
 
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState(value?.toString() || '');
   const [suggestions, setSuggestions] = useState<Suggestion[] | []>([]);
+
+  useEffect(() => {
+    setInput(value?.toString() || '');
+  }, [value]);
 
   useEffect(() => {
     if (!isFocused) {

@@ -22,7 +22,6 @@ export default function Avatar({ url, size = 150, onUpload, bucketName }: Props)
   const [filePath, setFilePath] = useState<string | null>(null);
   const avatarSize = { height: size, width: size };
 
-  console.log({ isFocused, url, filePath });
 
   useEffect(() => {
     setFilePath(null);
